@@ -1,0 +1,274 @@
+/*!
+ * e-Malout Theme
+ * Version: 1.0
+ * Author: Varinder Singh
+ * URL: 
+ */
+
+/*Branding CSS: emalout Theme*/
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --em-basic: #7395ae;
+    --em-highlight: #ebb82e;
+    --em-hover: #557a95;
+    --em-border: #dcdcdc;
+    --em-black: #000000;
+    --em-white: #ffffff;
+    --em-transparent: transparent;
+
+    --em-background-default: rgb(241, 159, 83, .05);
+    --em-background-blockOne: #c5e1fa;
+    --em-background-blockTwo: rgb(235, 184, 46, .4);
+    --em-background-blockThree: rgb(150, 204, 78, .4);
+    --em-popup-opacity: rgba(0, 0, 0, 0.5);
+    --em-popup-opacity-white: rgba(255, 255, 255, 0.5);
+
+    --em-text-default: #6e6b7b;
+    --em-text-highlight: #B4876C;
+    --em-text-hover: rgb(0 119 181 / 5%);
+
+    --em-button-default: #0077b5;
+    --em-button-highlight: #ebb82e;
+    --em-button-hover: #3095ee;
+
+    --em-success: #66bb6a;
+    --em-warning: #ffa726;
+    --em-error: #f00;
+    --em-information: #29b6f6;
+    --em-orange: #f0592e;
+    --em-green: #3ac47d;
+    --em-red: #f01;
+    --em-yellow: #3ac47d;
+
+    --em-grid-row-odd-background: #f9f9f9;
+    --em-grid-row-even-background: #fbfbfb;
+    --em-grid-header-background: #c5e1fa;
+
+    --em-font-size-extraSmall: 0.5rem;
+    --em-font-size-small: 0.7rem;
+    --em-font-size-regular: 1rem;
+    --em-font-size-medium: 1.3rem;
+    --em-font-size-large: 1.5rem;
+
+    --em-font-space-small: 0px;
+    --em-font-space-medium: 0.5px;
+    --em-font-space-large: 1px;
+
+    --em-font-light: 300;
+    --em-font-regular: 400;
+    --em-font-medium: 500;
+    --em-font-semiBold: 600;
+    --em-font-bold: 700;
+    --em-font-extraBold: 800;
+
+    --em-font-family: 'Open Sans', sans-serif;
+    --font-family-sans-serif: -apple-system, Arial Black, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+html {
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+}
+
+body {
+    font-family: var(--em-font-family) !important;
+    font-size: var(--em-font-size-regular) !important;
+    font-weight: var(--em-font-regular);
+    line-height: 1.5 !important;
+}
+
+
+
+.em-border,
+.em-border-top,
+.em-border-bottom,
+.em-border-left,
+.em-border-right {
+    border-color: var(--em-border);
+}
+
+a {
+    color: var(--em-hover);
+    text-decoration: none;
+    background-color: transparent;
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+    color: var(--em-highlight);
+    transition: all 0.3s ease-in-out;
+}
+
+.invalidCredentials,
+.errorMessage {
+    color: var(--em-error);
+    font-size: var(--em-font-size-extraSmall);
+    font-weight: var(--em-font-semiBold);
+}
+
+/***************************************************Header Global Defined Css Starts************************************************************/
+.em-header-default {
+    background-color: var(--em-white);
+    font-size: var(--em-font-size-regular);
+    font-weight: var(--em-font-regular);
+    letter-spacing: var(--em-font-space-small);
+}
+
+.em-header-blockOne {
+    background-color: var(--em-background-blockOne);
+}
+
+.em-header-blockTwo {
+    background-color: var(--em-background-blockTwo);
+}
+
+.em-header-blockThree {
+    background-color: var(--em-background-blockThree);
+}
+
+.em-header-blockOne p {
+    font-size: var(--em-font-size-medium);
+    font-weight: var(--em-font-medium);
+    letter-spacing: var(--em-font-space-medium);
+}
+
+.em-header-blockTwo p {
+    font-size: var(--em-font-size-large);
+    font-weight: var(--em-font-bold);
+    letter-spacing: var(--em-font-space-large);
+}
+
+.em-header-blockThree p {
+    font-size: var(--em-font-size-small);
+    font-weight: var(--em-font-light);
+    letter-spacing: var(--em-font-space-small);
+}
+
+/***************************************************Header Global Defined Css Ends************************************************************/
+
+/***************************************************Footer Global Defined Css Starts************************************************************/
+.em-footer-default {
+    background-color: var(--em-white);
+    font-size: var(--em-font-size-regular);
+    font-weight: var(--em-font-regular);
+    letter-spacing: var(--em-font-space-small);
+}
+
+.em-footer-blockOne {
+    background-color: var(--em-background-blockOne);
+}
+
+.em-footer-blockTwo {
+    background-color: var(--em-background-blockTwo);
+}
+
+.em-footer-blockThree {
+    background-color: var(--em-background-blockThree);
+}
+
+.em-footer-blockOne p {
+    font-size: var(--em-font-size-medium);
+    font-weight: var(--em-font-medium);
+    letter-spacing: var(--em-font-space-medium);
+}
+
+.em-footer-blockTwo p {
+    font-size: var(--em-font-size-large);
+    font-weight: var(--em-font-bold);
+    letter-spacing: var(--em-font-space-large);
+}
+
+.em-footer-blockThree p {
+    font-size: var(--em-font-size-small);
+    font-weight: var(--em-font-light);
+    letter-spacing: var(--em-font-space-small);
+}
+
+/***************************************************Footer Global Defined Css Ends************************************************************/
+
+/***************************************************Button Css Starts************************************************************/
+.em-button-default {
+    line-height: 1rem;
+    border: solid 2px var(--em-button-default);
+    background-color: var(--em-button-default);
+    color: var(--em-white);
+    font-size: var(--em-font-size-regular);
+    font-weight: var(--em-font-regular);
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    padding: .5rem 1rem;
+    box-shadow: 0 0 6px 1px rgb(0 118 181 / 20%) !important;
+}
+
+.em-button-default:hover {
+    line-height: 1rem;
+    border-color: var(--em-button-hover);
+    background-color: var(--em-button-hover);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 6px 1px rgb(48 149 238 / 50%);
+}
+
+.em-button-outline,
+.em-button-cancel {
+    line-height: 1rem;
+    background-color: var(--em-white);
+    border-color: var(--em-button-default);
+    color: var(--em-button-default);
+    font-size: var(--em-font-size-regular);
+    font-weight: var(--em-font-regular);
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    padding: .45rem 1rem;
+    border: solid 2px var(--em-button-default);
+    box-shadow: 0 0 6px 1px rgb(197 225 250 / 30%);
+}
+
+.em-button-outline:hover,
+.em-button-cancel:hover {
+    border-color: var(--em-button-hover);
+    background-color: var(--em-button-hover);
+    color: var(--white);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 6px 1px rgb(48 149 238 / 50%);
+}
+
+.em-button-small {
+    padding: .15rem .4rem;
+    font-size: .8rem;
+}
+
+.em-button-extraSmall {
+    padding: .2rem .3rem !important;
+    font-size: 12px !important;
+    line-height: 12px !important;
+}
+
+.em-button-textOnly {
+    background-color: var(--em-transparent);
+    border-color: var(--em-button-default);
+    color: var(--em-hover);
+    font-size: var(--em-font-size-regular);
+    font-weight: var(--em-font-regular);
+    border-radius: 0.25rem;
+    transition: all 0.3s ease-in-out;
+    padding: .45rem 1rem;
+    border: none;
+}
+
+.em-errorMessage {
+    position: absolute;
+    color: #f00;
+    font-size: var(--em-font-size-small);
+}
+
+.em-successMessage {
+    color: #4f8a10;
+    font-size: var(--em-font-size-small);
+}
+
+.em-cursorPointer {
+    cursor:pointer;
+}

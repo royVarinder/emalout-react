@@ -1,0 +1,16 @@
+/* HEADER OF EMALOUT ==================================*/
+.em_header {
+    background-color: var(--em-basic);
+}
+.menuItems {
+    color:var(--em-white);
+    font-weight: var(--em-font-semiBold);
+
+}
+.menuListed {
+    list-style-type: none;
+    font-size: var(--em-font-size-regular);
+}
+.siteLogo {
+    width: 15vh;
+}
