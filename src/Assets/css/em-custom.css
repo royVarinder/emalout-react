@@ -1,16 +1,81 @@
 /* HEADER OF EMALOUT ==================================*/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  transition: all 0.5s ease-in-out;
+}
+
 .em_header {
-    background-color: var(--em-basic);
+  background-color: var(--em-basic);
+  position: fixed;
+  width: 100%;
 }
 .menuItems {
-    color:var(--em-white);
-    font-weight: var(--em-font-semiBold);
-
+  color: var(--em-white);
+  font-weight: var(--em-font-semiBold);
 }
 .menuListed {
-    list-style-type: none;
-    font-size: var(--em-font-size-regular);
+  list-style-type: none;
+  font-size: var(--em-font-size-regular);
+}
+.menuListing {
+  transition: all 0.5s ease-in-out;
+}
+
+.menuListing:hover {
+  background-color: var(--em-hover);
 }
 .siteLogo {
-    width: 15vh;
+  width: 15vh;
 }
+.emRouterPath.landingPage {
+  padding-top: 5.5%;
+}
+.main-content {
+  background: #f3f3f3;
+  height: 87vh;
+  overflow-y: auto;
+}
+.AddGigFormModal {
+  width: 50%;
+  background: var(--em-white);
+  margin: 1% auto;
+}
+
+.emOpeningDays input,
+.emFeatures input {
+  margin: 0.25rem;
+}
+
+label.error {
+  position: absolute;
+  top: 14%;
+  right: 3%;
+  color:var(--em-error);
+}
+.inputClass {
+  width : 100%;
+  position: relative;
+}
+
+
+/* DRAG & DROP STYLING */
+.DragAndDrop {
+  background-color: var(--em-border);
+  padding:3rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  border : 0.5px solid rgb(136, 128, 128);
+  position:relative;
+
+}
+ .DragAndDrop input  {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    opacity : 0;
+} 

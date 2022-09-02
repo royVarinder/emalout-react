@@ -9,14 +9,30 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
+
+/* HIDDING NUMBER INPUT ARRAYS */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* HIDDING NUMBER INPUT ARRAYS */
 :root {
-    --em-basic: #7395ae;
+    --em-basic: #45cbd4;
     --em-highlight: #ebb82e;
-    --em-hover: #557a95;
+    --em-hover: #dd6c37;
     --em-border: #dcdcdc;
     --em-black: #000000;
     --em-white: #ffffff;
     --em-transparent: transparent;
+    --em-transparentBlack  : #00000073;
 
     --em-background-default: rgb(241, 159, 83, .05);
     --em-background-blockOne: #c5e1fa;
@@ -29,9 +45,9 @@
     --em-text-highlight: #B4876C;
     --em-text-hover: rgb(0 119 181 / 5%);
 
-    --em-button-default: #0077b5;
+    --em-button-default:#14b5c0;
     --em-button-highlight: #ebb82e;
-    --em-button-hover: #3095ee;
+    --em-button-hover: #2a5153;
 
     --em-success: #66bb6a;
     --em-warning: #ffa726;
@@ -272,3 +288,19 @@ a:hover {
 .em-cursorPointer {
     cursor:pointer;
 }
+
+
+.emModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1055;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+    display: block !important;
+    background-color: var(--em-transparentBlack);
+}
+
