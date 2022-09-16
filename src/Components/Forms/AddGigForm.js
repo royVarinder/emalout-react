@@ -19,6 +19,7 @@ import TextBox from "../Elements/InputControl";
 import jQuery from "jquery";
 import $ from "jquery";
 import jqueryValidate from "jquery-validation";
+import axios from "axios";
 import {
   EM_ERR_EXCLAMATION_MARK,
   EM_ERR_VALID_EMAIL,
@@ -100,18 +101,32 @@ const AddGigForm = (props) => {
         handleSubmitGig(formData, event, features, WeekDays);
       },
     });
+
+
   }, []);
 
+  const onFileUpload = (e)=>{
+    const updatedList = "";
+    const newFile = e.target;
+    if(newFile) {
+      const updatedList = [...imagesFiles, newFile]
+      setImagesFiles(updatedList)
+    }
+    return updatedList
+  } 
+  
   useEffect(()=>{
-    setImagesFiles(ImagesData)
     console.log("images data", imagesFiles);
-  },[ImagesData])
+  },[imagesFiles])
 
   const handleCloseForm = () => {
     setShowGigForm(false);
   };
 
   const handleSubmitGig = (formData, event, features, WeekDays) => {
+    
+
+    return false
     let name = formData.yourName.value;
     let contact = formData.yourContact.value;
     let bussinessName = formData.bussinessName.value;
@@ -134,20 +149,8 @@ const AddGigForm = (props) => {
         district : district,
         images : imagesFiles,
        };
-    
-    console.log("addGigFormData", addGigFormData);
-
+   console.log("addGigFormData", addGigFormData);
   };
-let ImagesData =  onFileUpload = (e)=>{
-  const updatedList = "";
-  const newFile = e.target.files[0];
-  if(newFile) {
-    const updatedList = [...imagesFiles, newFile]
-  }
-  return updatedList
-} 
-
-
 
   return (
     <>
@@ -239,7 +242,7 @@ let ImagesData =  onFileUpload = (e)=>{
                   className="form-select"
                   inputClass="inputClass padding-1 marginTop-1"
                   name="DropImages"
-                  multiple
+                  multiple = {true}
                   onChange = {onFileUpload}
                 />
               </div>

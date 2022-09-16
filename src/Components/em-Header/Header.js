@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import Logo from "../../Assets/img/emalout-logo.png"
 import Logo2 from "../../Assets/img/emalout-logo2.png";
@@ -34,6 +35,8 @@ const Header = () => {
   const handleShowAddGig =()=>{
     setShowGigForm(!showAddGig);
   }
+
+
 
   return (
     <>
