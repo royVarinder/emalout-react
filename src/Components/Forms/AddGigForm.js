@@ -40,14 +40,13 @@ import {
 } from "../Config/Input";
 import Select from "../Elements/Select";
 import {
-  EM_CATEGORIES,
+  
   EM_DEFAULT_CITY,
   EM_DEFAULT_DIST,
-  EM_FEATURES,
-  EM_WEEKOFDAYS,
 } from "../Config/emSiteConfig";
 import CheckRadio from "../Elements/Checkbox";
 import DragDropFileUpload from "../Elements/DragDropFileUpload"
+import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS,  } from "../Config/Config";
 
 const AddGigForm = (props) => {
   const { showAddGig, setShowGigForm } = props;

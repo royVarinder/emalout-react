@@ -10,8 +10,8 @@ import LandingPage from './Components/em-LandingPage/LandingPage';
 
 
 function App() {
-  let response = axios.get(`http://localhost/testingapi/getgigs/`);
-  console.log("response", response);
+  
+
 
   return (
     <div className="App">
