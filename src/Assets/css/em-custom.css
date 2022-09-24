@@ -1,12 +1,30 @@
-/* HEADER OF EMALOUT ==================================*/
+
+/* Hide scrollbar for Chrome, Safari and Opera =================> */
+#root::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox  =================>*/
+#root {
+-ms-overflow-style: none;  /* IE and Edge */
+scrollbar-width: none;  /* Firefox */
+}
+
+
+
 * {
   margin: 0;
   padding: 0;
 }
 
+
+
 .root {
   transition: all 0.5s ease-in-out;
 }
+
+/* HEADER OF EMALOUT ==================================>*/
+
 
 .em_header {
   background-color: var(--em-basic);
@@ -79,3 +97,32 @@ label.error {
     height: 100%;
     opacity : 0;
 } 
+
+
+
+
+/* HOME PAGE CSS ==================================================> */
+.categoryCard {
+  width: 100%;
+  max-width: 16%;
+  gap: 0 0.4rem;
+  background: #d4d3d3;
+  height: 100%;
+  max-height: 11rem;
+  border-radius: 0.5rem;
+}
+
+.categoryHeading {
+  font-weight: bolder;
+  background: #ffff;
+  padding: 0.2rem;
+  text-transform: capitalize;
+  border-radius: 8px 8px 0px 0px;
+}
+
+.categoryHeading h5 {
+  margin :0;
+}
+.cateogryBody p {
+  margin :0.5rem;
+}

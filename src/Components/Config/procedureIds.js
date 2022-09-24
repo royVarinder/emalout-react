@@ -1,4 +1,20 @@
 export const em_procedur_id = {
-    em_get_shops : "getgigs/",
+    anythingonrent : "anythingonrent",
+    booking : 'booking', 
+    dailyNeeds : 'dailyNeeds', 
+    doctorMedical : 'doctorMedical', 
+    garmentsFashion : 'garmentsFashion', 
+    healthBeauty : 'healthBeauty', 
+    homeOfficeNeeds : 'homeOfficeNeeds', 
+    hotelRestaurant : 'hotelRestaurant', 
+    onDemandServices : 'onDemandServices', 
+    personal : 'personal', 
+    services : 'services', 
+    shopStore : 'shopStore', 
+    showRoom : 'showRoom', 
+    wedding : 'wedding', 
+    all_bussiness : 'all_bussiness',
+    all_categories : "allCategories",
+    uploadBuss : 'uploadBuss', 
     
 }

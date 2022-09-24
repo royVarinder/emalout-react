@@ -47,10 +47,18 @@ import {
 import CheckRadio from "../Elements/Checkbox";
 import DragDropFileUpload from "../Elements/DragDropFileUpload"
 import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS,  } from "../Config/Config";
+import { emPostData, getCallData } from "../Util";
+import { em_procedur_id } from "../Config/procedureIds";
 
 const AddGigForm = (props) => {
   const { showAddGig, setShowGigForm } = props;
   const [imagesFiles, setImagesFiles] = useState([]);
+  const formData = new FormData();
+  let imagesComma = "";
+  const [allCategories, setAllCategories] = useState([]);
+
+
+
 
   useEffect(() => {
     $("#addGigForm").validate({
@@ -100,22 +108,35 @@ const AddGigForm = (props) => {
         handleSubmitGig(formData, event, features, WeekDays);
       },
     });
-
-
+      //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
+      getCallData(em_procedur_id?.all_categories).then((res) => {
+        setAllCategories(res?.data);
+      });
   }, []);
 
   const onFileUpload = (e)=>{
-    const updatedList = "";
-    const newFile = e.target;
+    try {
+      const updatedList = "";
+    const newFile = e.target.files[0];
     if(newFile) {
-      const updatedList = [...imagesFiles, newFile]
+      const updatedList = [...imagesFiles, newFile.name]
       setImagesFiles(updatedList)
     }
     return updatedList
-  } 
-  
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+  }
   useEffect(()=>{
-    console.log("images data", imagesFiles);
+    try {
+      imagesComma =imagesFiles.toString()
+       console.log('imagesComma :>> ', imagesComma);
+      
+    } catch (error) {
+      console.log('error :>> ', error);
+      
+    }
+
   },[imagesFiles])
 
   const handleCloseForm = () => {
@@ -123,10 +144,8 @@ const AddGigForm = (props) => {
   };
 
   const handleSubmitGig = (formData, event, features, WeekDays) => {
-    
-
-    return false
-    let name = formData.yourName.value;
+    try {
+       let name = formData.yourName.value;
     let contact = formData.yourContact.value;
     let bussinessName = formData.bussinessName.value;
     let bussinessContact = formData.bussinessContact.value;
@@ -134,6 +153,7 @@ const AddGigForm = (props) => {
     let address = formData.address.value;
     let city = formData.city.value;
     let district = formData.district.value;
+    let imageFiles = imagesFiles.toString();
     let addGigFormData = 
       {
         name : name,
@@ -146,9 +166,18 @@ const AddGigForm = (props) => {
         address : address,
         city : city,
         district : district,
-        images : imagesFiles,
        };
-   console.log("addGigFormData", addGigFormData);
+      console.log("addGigFormData", addGigFormData, imagesFiles);
+       emPostData(em_procedur_id?.uploadBuss, addGigFormData).then((res)=>{
+        console.log('res :>> ', res);
+       })
+
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+    
+
+   
   };
 
   return (
@@ -228,7 +257,7 @@ const AddGigForm = (props) => {
                 <Select
                   className="form-select"
                   inputClass="inputClass padding-1 marginTop-1"
-                  data={EM_CATEGORIES}
+                  data={allCategories}
                   name="selectCategory"
                 />
               </div>
