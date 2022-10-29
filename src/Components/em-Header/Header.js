@@ -3,48 +3,44 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // import Logo from "../../Assets/img/emalout-logo.png"
 import Logo2 from "../../Assets/img/emalout-logo2.png";
-import { EM_ADD, EM_ADMIN, EM_SEARCH } from "../Config/emButton";
+import { MENU_ITEMS } from "../Config/Config";
+import { EM_ADD, EM_ADMIN, EM_MOBILE_MENU_ICON, EM_SEARCH } from "../Config/emButton";
 import Button from "../Elements/Button";
 import AddGigForm from "../Forms/AddGigForm";
+import MobileMenu from "./MobileMenu";
 
 const Header = () => {
   const [showAddGig, setShowGigForm] = useState(false);
-  const menuItems = [
-    {
-      menu_id: 1,
-      menuName: "Home",
-      url : "/"
-    },
-    {
-      menu_id: 2,
-      menuName: "About-us",
-      url : "/about-us"
-    },
-    {
-      menu_id: 3,
-      menuName: "eM-News",
-      url : "/em-news"
-    },
-    {
-      menu_id: 4,
-      menuName: "Contact Us",
-      url : "/contact-us"
-    },
-  ];
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const [menuItems, setMenuItems] = useState(MENU_ITEMS);
+
 
   const handleShowAddGig =()=>{
-    setShowGigForm(!showAddGig);
+    try {
+      setShowGigForm(!showAddGig);
+    } catch (error) {
+      console.error(error);
+      
+    }
   }
 
+  const handleOpenMobileMenu=()=>{
+    try {
+    setMobileMenu(!mobileMenu);
+    } catch (error) {
+      console.error(error);
+      
+    }
+  }
 
 
   return (
     <>
     <div className="em_header  em-shadow-bottom em-flex em-horizontal-align-between em-vertical-align-middle em-header-default">
-      <div className="siteLogo">
+      <div className="siteLogo em-horizontal-align-left em-text-left">
         <img src={Logo2} alt="" />
       </div>
-      <div className="siteMenu">
+    <div className="siteMenuDesktop">
         <div className="menuItems">
           <ul className="menuListed em-flex">
             {menuItems.map((items) => {
@@ -79,11 +75,26 @@ const Header = () => {
           id="em_admin_login"
           className="em-button-default marginRight-2"
         />
+
+        <Button
+          title={EM_MOBILE_MENU_ICON}
+          id="em_mobile_menu"
+          className="em-button-default marginRight-2 em_mobile_menu_button"
+          onClick={()=>{
+            handleOpenMobileMenu();
+          }}
+        />
       </div>
+      
     </div>
     {showAddGig &&<AddGigForm 
     showAddGig = {showAddGig}
     setShowGigForm = {setShowGigForm}/>} 
+    
+    {mobileMenu && <MobileMenu 
+    mobileMenu={mobileMenu}
+    setMobileMenu={setMobileMenu}
+    />}
     </>
   );
 };

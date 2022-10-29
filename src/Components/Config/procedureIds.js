@@ -13,8 +13,8 @@ export const em_procedur_id = {
     shopStore : 'shopStore', 
     showRoom : 'showRoom', 
     wedding : 'wedding', 
-    all_bussiness : 'all_bussiness',
-    all_categories : "allCategories",
+    all_bussiness : 'emalout_all_bussiness',
+    all_categories : "emalout_all_categories",
     uploadBuss : 'uploadBuss', 
     
 }

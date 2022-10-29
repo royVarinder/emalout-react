@@ -1,5 +1,6 @@
 // LABELS= =================
 export const EM_ADD_YOUR_GIG = "Add Your Gig";
+export const EM_MOBILE_MENU = "Mobile Menu";
 
 
 

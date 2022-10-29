@@ -49,6 +49,7 @@ import DragDropFileUpload from "../Elements/DragDropFileUpload"
 import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS,  } from "../Config/Config";
 import { emPostData, getCallData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
+import { toast } from "react-toastify";
 
 const AddGigForm = (props) => {
   const { showAddGig, setShowGigForm } = props;
@@ -89,23 +90,45 @@ const AddGigForm = (props) => {
       },
 
       submitHandler: function (formData, event) {
-        event.preventDefault();
-        //getting features from the checkbox values checkbox values
-        let features = $("input[name='selectFeature']:checked")
-          .map(function () {
-            return this.value;
-          })
-          .get()
-          .join(",");
-        //getting week days from the checkbox values
-        let WeekDays = $("input[name='selectWeekDays']:checked")
-          .map(function () {
-            return this.value;
-          })
-          .get()
-          .join(",");
+        try {
+          event.preventDefault();
+          //getting features from the checkbox values checkbox values =======================>
+          let features = $("input[name='selectFeature']:checked")
+            .map(function () {
+              return this.value;
+            })
+            .get()
+            .join(",");
+          //getting week days from the checkbox values =====================>
+          let weekdays = $("input[name='selectWeekDays']:checked")
+            .map(function () {
+              return this.value;
+            })
+            .get()
+            .join(",");
+            ///serializing data to update in data base=================>
+            
+            let serilizeFromData = $("#addGigForm").serialize()+"&features="+features+"&openingDays="+weekdays+"&images="+imagesFiles;
 
-        handleSubmitGig(formData, event, features, WeekDays);
+            emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then((res)=>{
+              console.log(res?.data); 
+              if(res?.data === true) {
+                // alert("Data updated succeussfully")
+                toast.success("Data updated Successfully");
+                // setShowGigForm(false);
+              }else {
+                // alert("Somthing went wrong")
+                toast.error("Something went wrong");
+
+              }
+             })
+          // handleSubmitGig(formData, event, features, WeekDays);
+          
+        } catch (error) {
+          console.log('error :>> ', error);
+          
+        }
+       
       },
     });
       //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
@@ -130,7 +153,7 @@ const AddGigForm = (props) => {
   useEffect(()=>{
     try {
       imagesComma =imagesFiles.toString()
-       console.log('imagesComma :>> ', imagesComma);
+      setImagesFiles(imagesComma);
       
     } catch (error) {
       console.log('error :>> ', error);
@@ -154,8 +177,7 @@ const AddGigForm = (props) => {
     let city = formData.city.value;
     let district = formData.district.value;
     let imageFiles = imagesFiles.toString();
-    let addGigFormData = 
-      {
+    let addGigFormData ={
         name : name,
         contact : contact,
         bussinessName : bussinessName,
@@ -167,10 +189,6 @@ const AddGigForm = (props) => {
         city : city,
         district : district,
        };
-      console.log("addGigFormData", addGigFormData, imagesFiles);
-       emPostData(em_procedur_id?.uploadBuss, addGigFormData).then((res)=>{
-        console.log('res :>> ', res);
-       })
 
     } catch (error) {
       console.log('error :>> ', error);
@@ -199,7 +217,7 @@ const AddGigForm = (props) => {
             id="addGigForm"
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmitGig();
+              // handleSubmitGig();
             }}
           >
             <div className="add_body em-border-bottom paddingBottom-2">
@@ -325,7 +343,7 @@ const AddGigForm = (props) => {
                     className="form-control "
                     placeholder={EM_PLACE_CITY}
                     defaultValue={EM_DEFAULT_CITY}
-                    disabled
+                    
                   />
                   <TextBox
                   inputClass="inputClass padding-1 marginTop-1"
@@ -335,7 +353,7 @@ const AddGigForm = (props) => {
                     className="form-control "
                     placeholder={EM_PLACE_DIST}
                     defaultValue={EM_DEFAULT_DIST}
-                    disabled
+                    
                     
                     
                   />

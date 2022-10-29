@@ -14,10 +14,10 @@ export const getCallData = (processId) => {
   
 }
 
-export const emPostData = (processId, dataJson) => {
+export const emPostData = (processId, data) => {
     try {
         let PROCESS_ID_URL = processIdURL;
-        return axios.post(PROCESS_ID_URL +"/"+processId+"/", JSON.stringify(dataJson));
+        return axios.post(PROCESS_ID_URL +"/"+processId+"/", data);
     } catch (error) {
         console.log('emPostData :>> ', error);
         return {};

@@ -108,3 +108,27 @@ export const EM_WEEKOFDAYS = [
     { id: "7", name: "Sunday", value: "Sunday" , isChecked: false},
     
   ];
+
+
+  export const MENU_ITEMS = [
+    {
+      menu_id: 1,
+      menuName: "Home",
+      url : "/"
+    },
+    {
+      menu_id: 2,
+      menuName: "About-us",
+      url : "/about-us"
+    },
+    {
+      menu_id: 3,
+      menuName: "eM-News",
+      url : "/em-news"
+    },
+    {
+      menu_id: 4,
+      menuName: "Contact Us",
+      url : "/contact-us"
+    },
+  ];

@@ -9,8 +9,11 @@ export const EM_CANCEL  = "Cancel";
 export const EM_SUBMIT  = "Submit";
 
 
+
 // BUTTON ICONS =============
 export const EM_CLOSE_ICON  = <i className="fa fa-close"></i>;
+export const EM_MOBILE_MENU_ICON  = <i class="fa fa-bars" aria-hidden="true"></i>;
+
 
 
 
