@@ -16,7 +16,7 @@ const Select = (props) => {
       defaultValue ={props?.defaultValue}
     >
       {data.map((items, index) => {
-        return <option key={index} value={items?.cat_id} >{items?.buss_category}</option>;
+        return <option key={index} value={items?.cat_id} >{items?.em_category_name}</option>;
       })}
     </select>
     </div>

@@ -153,6 +153,10 @@ label.error {
 }
 
 
+.optionsValues {
+  position: relative;
+}
+
 /* //RESPONSIVE DESIGN ==========> */
 
 /* @media (min-width: 600px) {

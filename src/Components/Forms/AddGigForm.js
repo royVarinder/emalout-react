@@ -53,9 +53,6 @@ import { toast } from "react-toastify";
 
 const AddGigForm = (props) => {
   const { showAddGig, setShowGigForm } = props;
-  const [imagesFiles, setImagesFiles] = useState([]);
-  const formData = new FormData();
-  let imagesComma = "";
   const [allCategories, setAllCategories] = useState([]);
 
 
@@ -73,6 +70,9 @@ const AddGigForm = (props) => {
         address: { required: true },
         city : {required : true},
         district : {required : true},
+        selectFeature : {required : true},
+        selectWeekDays : {required : true},
+        
       },
       messages: {
         yourName: EM_ERR_EXCLAMATION_MARK,
@@ -86,7 +86,11 @@ const AddGigForm = (props) => {
         address : EM_ERR_EXCLAMATION_MARK,
         city : EM_ERR_EXCLAMATION_MARK,
         district : EM_ERR_EXCLAMATION_MARK,
-        selectCategory : EM_ERR_EXCLAMATION_MARK
+        selectCategory : EM_ERR_EXCLAMATION_MARK,
+        selectWeekDays : EM_ERR_EXCLAMATION_MARK,
+        selectFeature : EM_ERR_EXCLAMATION_MARK,
+
+
       },
 
       submitHandler: function (formData, event) {
@@ -108,18 +112,12 @@ const AddGigForm = (props) => {
             .join(",");
             ///serializing data to update in data base=================>
             
-            let serilizeFromData = $("#addGigForm").serialize()+"&features="+features+"&openingDays="+weekdays+"&images="+imagesFiles;
-
-            emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then((res)=>{
-              console.log(res?.data); 
-              if(res?.data === true) {
-                // alert("Data updated succeussfully")
-                toast.success("Data updated Successfully");
-                // setShowGigForm(false);
+            let serilizeFromData = $("#addGigForm").serialize()+"&features="+features+"&openingDays="+weekdays;
+            emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then((res)=>{   
+              if(res?.status !== 200) {
+                alert("Somthing went wrong")
               }else {
-                // alert("Somthing went wrong")
-                toast.error("Something went wrong");
-
+                alert("Your bussiness is uploaded successfully!")
               }
              })
           // handleSubmitGig(formData, event, features, WeekDays);
@@ -131,72 +129,17 @@ const AddGigForm = (props) => {
        
       },
     });
+
       //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
       getCallData(em_procedur_id?.all_categories).then((res) => {
         setAllCategories(res?.data);
       });
   }, []);
 
-  const onFileUpload = (e)=>{
-    try {
-      const updatedList = "";
-    const newFile = e.target.files[0];
-    if(newFile) {
-      const updatedList = [...imagesFiles, newFile.name]
-      setImagesFiles(updatedList)
-    }
-    return updatedList
-    } catch (error) {
-      console.log('error :>> ', error);
-    }
-  }
-  useEffect(()=>{
-    try {
-      imagesComma =imagesFiles.toString()
-      setImagesFiles(imagesComma);
-      
-    } catch (error) {
-      console.log('error :>> ', error);
-      
-    }
-
-  },[imagesFiles])
-
   const handleCloseForm = () => {
     setShowGigForm(false);
   };
 
-  const handleSubmitGig = (formData, event, features, WeekDays) => {
-    try {
-       let name = formData.yourName.value;
-    let contact = formData.yourContact.value;
-    let bussinessName = formData.bussinessName.value;
-    let bussinessContact = formData.bussinessContact.value;
-    let selectCategory = formData.selectCategory.value;
-    let address = formData.address.value;
-    let city = formData.city.value;
-    let district = formData.district.value;
-    let imageFiles = imagesFiles.toString();
-    let addGigFormData ={
-        name : name,
-        contact : contact,
-        bussinessName : bussinessName,
-        bussinessContact : bussinessContact,
-        selectCategory : selectCategory,
-        features :features,
-        WeekDays : WeekDays,
-        address : address,
-        city : city,
-        district : district,
-       };
-
-    } catch (error) {
-      console.log('error :>> ', error);
-    }
-    
-
-   
-  };
 
   return (
     <>
@@ -217,7 +160,6 @@ const AddGigForm = (props) => {
             id="addGigForm"
             onSubmit={(e) => {
               e.preventDefault();
-              // handleSubmitGig();
             }}
           >
             <div className="add_body em-border-bottom paddingBottom-2">
@@ -277,19 +219,6 @@ const AddGigForm = (props) => {
                   inputClass="inputClass padding-1 marginTop-1"
                   data={allCategories}
                   name="selectCategory"
-                />
-              </div>
-              <div className="allInputs em-text-left marginTop-3 margin-1">
-                <div className="Heading">
-                  <h5>{EM_UPLOAD_IMAGES}</h5>
-                </div>
-                <DragDropFileUpload
-                
-                  className="form-select"
-                  inputClass="inputClass padding-1 marginTop-1"
-                  name="DropImages"
-                  multiple = {true}
-                  onChange = {onFileUpload}
                 />
               </div>
               <div className="allInputs em-text-left marginTop-3 margin-1">

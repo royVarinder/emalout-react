@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Logo2 from "../../Assets/img/emalout-logo2.png";
 import { MENU_ITEMS } from "../Config/Config";
 import { EM_ADD, EM_ADMIN, EM_MOBILE_MENU_ICON, EM_SEARCH } from "../Config/emButton";
+import { FLAG_ADD_BTN, FLAG_ADMIN_BTN, FLAG_SEARCH_BTN } from "../Config/emSiteConfig";
 import Button from "../Elements/Button";
 import AddGigForm from "../Forms/AddGigForm";
 import MobileMenu from "./MobileMenu";
@@ -20,7 +21,6 @@ const Header = () => {
       setShowGigForm(!showAddGig);
     } catch (error) {
       console.error(error);
-      
     }
   }
 
@@ -57,11 +57,14 @@ const Header = () => {
         </div>
       </div>
       <div className="siteActions em-flex">
-        <Button
+        {FLAG_SEARCH_BTN === "Y" ?       
+          <Button
           title={EM_SEARCH}
           id="em_search_button"
           className="em-button-default marginRight-2"
-        />
+        /> : ""}
+
+        {FLAG_ADD_BTN ==="Y" ?  
         <Button
           title={EM_ADD}
           id="em_add_bussiness"
@@ -69,13 +72,14 @@ const Header = () => {
           onClick={()=>{
             handleShowAddGig();
           }}
-        />
+        /> : ""}
+       {FLAG_ADMIN_BTN === "Y" ?   
         <Button
           title={EM_ADMIN}
           id="em_admin_login"
           className="em-button-default marginRight-2"
-        />
-
+        /> : ""}
+      
         <Button
           title={EM_MOBILE_MENU_ICON}
           id="em_mobile_menu"

@@ -15,6 +15,6 @@ export const em_procedur_id = {
     wedding : 'wedding', 
     all_bussiness : 'emalout_all_bussiness',
     all_categories : "emalout_all_categories",
-    uploadBuss : 'uploadBuss', 
+    uploadBuss : 'emalout_upload_bussiness', 
     
 }
