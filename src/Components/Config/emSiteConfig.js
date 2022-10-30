@@ -11,3 +11,7 @@ export const processIdURL = "http://localhost/emaloutInterface";
 export const FLAG_SEARCH_BTN = "N";
 export const FLAG_ADD_BTN = "Y";
 export const FLAG_ADMIN_BTN = "Y";
+
+//URL's FOR NAVIGATIONS ==========>
+
+export const NAV_ADMIN = "/admin";

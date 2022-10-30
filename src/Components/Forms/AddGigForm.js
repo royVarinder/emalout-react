@@ -55,9 +55,6 @@ const AddGigForm = (props) => {
   const { showAddGig, setShowGigForm } = props;
   const [allCategories, setAllCategories] = useState([]);
 
-
-
-
   useEffect(() => {
     $("#addGigForm").validate({
       rules: {

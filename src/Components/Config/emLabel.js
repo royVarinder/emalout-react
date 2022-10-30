@@ -1,6 +1,7 @@
 // LABELS= =================
 export const EM_ADD_YOUR_GIG = "Add Your Gig";
 export const EM_MOBILE_MENU = "Mobile Menu";
+export const EM_ADMIN_LOGIN = "Admin Login";
 
 
 
@@ -13,6 +14,8 @@ export const EM_PLACE_EMAILADDRESS = "Email address";
 export const EM_PLACE_CITY = "City";
 export const EM_PLACE_DIST = "District";
 export const EM_PLACE_ADDRESS = "Address";
+export const EM_PLACE_ADMIN = "Admin";
+export const EM_PLACE_PASSWORD = "Password";
 
 
 

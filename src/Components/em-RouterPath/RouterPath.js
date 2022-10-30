@@ -4,7 +4,8 @@ import EmNews from "../em-news/EmNews";
 import AboutUs from "../em-About-us/About-us";
 import ContactUs from "../em-Contact-us/Contact-us";
 import Buss from "../em-buss/Buss";
-import { useParams } from "react-router";
+import AdminPortal from "../Admin/AdminPortal";
+import { NAV_ADMIN } from "../Config/emSiteConfig";
 
 const  RouterPath=()=> {
 
@@ -17,7 +18,8 @@ const  RouterPath=()=> {
             <Route exact path="/em-news" element={<EmNews/>} />
             <Route exact path="/about-us" element={<AboutUs/>} />
             <Route exact path="/contact-us" element={<ContactUs/>} />
-            <Route exact path="/buss/id" element={<Buss/>} />
+            <Route exact path="/buss" element={<Buss/>} />
+            <Route exact path={NAV_ADMIN} element={<AdminPortal/>} />
           </Routes >
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 const Select = (props) => {
   // const { loading = false, action, title, children, data } = props; // for backu
   const { data, values } = props;
-
+if(data !== undefined && data !== null && data !== "") {
   return (
     <div className={props?.inputClass}>
     <select
@@ -16,10 +16,12 @@ const Select = (props) => {
       defaultValue ={props?.defaultValue}
     >
       {data.map((items, index) => {
-        return <option key={index} value={items?.cat_id} >{items?.em_category_name}</option>;
+        return <option key={index} value={items?.id} >{items?.value}</option>;
       })}
     </select>
     </div>
   );
+}
+
 };
 export default Select;

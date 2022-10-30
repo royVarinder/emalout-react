@@ -26,4 +26,34 @@ export const emPostData = (processId, data) => {
 }
 
 
-//       axios.post("api/uploadfile", formData);
+export const setSessionData = (key, value)=> {
+    try {
+        let jsonValue = JSON.stringify(value);
+        sessionStorage.setItem(key, jsonValue);
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export const getSessionData =(key) =>{
+    try {
+        if(key!==""){
+            let sessionData =  sessionStorage.getItem(key);
+            return JSON.parse(sessionData);
+        }else {
+            return "";
+        }
+    } catch (error) {
+        console.error(error);
+    }
+ 
+}
+
+
+export const removeFromSession =(key)=>{
+    try {
+        sessionStorage.removeItem(key);
+    } catch (error) {
+        console.error(error);
+    }
+}

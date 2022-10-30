@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { em_procedur_id } from "../Config/procedureIds";
 import Button from "../Elements/Button";
-import { getCallData } from "../Util";
+import { getCallData, getSessionData } from "../Util";
 import { useNavigate } from "react-router";
+import { EM_ADMIN_DETAILS } from "../Config/Config";
 
 const HomePage = () => {
  
@@ -36,8 +37,8 @@ const HomePage = () => {
     <>
       <div className="allCategoryCardsRow em-flex em-flex-wrap em-horizontal-align-center">
         {allCategories.map((catItems, catIndx) => {
-          let bussCategory = catItems?.em_category_name;
-          let category_id = catItems?.cat_id;
+          let bussCategory = catItems?.value;
+          let category_id = catItems?.id;
           return (
             <div
               key={catIndx}

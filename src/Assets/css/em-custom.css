@@ -380,3 +380,9 @@ label.error {
 }
 } */
 
+.AdminLoginModal {
+  width: 30%;
+  background: var(--em-white);
+  margin: 5rem auto;
+  animation: fadeInAnimation 1s;
+}

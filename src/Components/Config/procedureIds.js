@@ -16,5 +16,8 @@ export const em_procedur_id = {
     all_bussiness : 'emalout_all_bussiness',
     all_categories : "emalout_all_categories",
     uploadBuss : 'emalout_upload_bussiness', 
+    emalout_validate_admin_user : 'emalout_validate_admin_user',
+    all_channels : "em_channels",
+    get_admin_details : "emalout_admin_details",
     
 }
