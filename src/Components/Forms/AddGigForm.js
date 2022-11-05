@@ -109,7 +109,8 @@ const AddGigForm = (props) => {
             .join(",");
             ///serializing data to update in data base=================>
             
-            let serilizeFromData = $("#addGigForm").serialize()+"&features="+features+"&openingDays="+weekdays;
+            let serilizeFromData = 
+            +"&features="+features+"&openingDays="+weekdays;
             emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then((res)=>{   
               if(res?.status !== 200) {
                 alert("Somthing went wrong")

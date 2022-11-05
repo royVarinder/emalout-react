@@ -106,6 +106,7 @@ label.error {
     right: 0;
     height: 100%;
     opacity : 0;
+    width: 100%;
 } 
 /* MOBILE MENU =====================> */
 
@@ -385,4 +386,12 @@ label.error {
   background: var(--em-white);
   margin: 5rem auto;
   animation: fadeInAnimation 1s;
+}
+
+.AddNewsModal {
+  width: 70%;
+  background: var(--em-white);
+  margin: 5rem auto;
+  animation: fadeInAnimation 1s;
+  
 }
