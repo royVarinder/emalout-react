@@ -20,6 +20,8 @@ const TextBox =(props)=>{
             multiple = {props?.multiple}
             rows = {props.rows}
             defaultValue= {props?.defaultValue}
+            required={props?.required}
+            
         />
         </div>
         )

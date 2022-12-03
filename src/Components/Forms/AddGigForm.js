@@ -12,7 +12,7 @@ import {
   EM_PLACE_YOURCONTACT,
   EM_PLACE_YOURNAME,
   EM_SELECT_CATEGORY,
-  EM_UPLOAD_IMAGES
+  EM_UPLOAD_IMAGES,
 } from "../Config/EmLabel";
 import Button from "../Elements/Button";
 import TextBox from "../Elements/InputControl";
@@ -39,21 +39,23 @@ import {
   EM_TYPE_TEXTAREA,
 } from "../Config/Input";
 import Select from "../Elements/Select";
-import {
-  
-  EM_DEFAULT_CITY,
-  EM_DEFAULT_DIST,
-} from "../Config/emSiteConfig";
+import { EM_DEFAULT_CITY, EM_DEFAULT_DIST } from "../Config/emSiteConfig";
 import CheckRadio from "../Elements/Checkbox";
-import DragDropFileUpload from "../Elements/DragDropFileUpload"
-import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS,  } from "../Config/Config";
+import DragDropFileUpload from "../Elements/DragDropFileUpload";
+import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS } from "../Config/Config";
 import { emPostData, getCallData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
 import { toast } from "react-toastify";
 
-const AddGigForm = (props) => {
+const AddGigForm = props => {
   const { showAddGig, setShowGigForm } = props;
   const [allCategories, setAllCategories] = useState([]);
+  const [Shopimages, setImages] = useState([]);
+  const [serielizeData, setSerielizeData] = useState();
+
+  useEffect(() => {
+    console.log("images :>> ", serielizeData);
+  }, [serielizeData]);
 
   useEffect(() => {
     $("#addGigForm").validate({
@@ -65,11 +67,10 @@ const AddGigForm = (props) => {
         selectCategory: { required: true },
         emailAddress: { required: true, email: true },
         address: { required: true },
-        city : {required : true},
-        district : {required : true},
-        selectFeature : {required : true},
-        selectWeekDays : {required : true},
-        
+        city: { required: true },
+        district: { required: true },
+        selectFeature: { required: true },
+        selectWeekDays: { required: true },
       },
       messages: {
         yourName: EM_ERR_EXCLAMATION_MARK,
@@ -80,14 +81,12 @@ const AddGigForm = (props) => {
           required: EM_ERR_EXCLAMATION_MARK,
           email: EM_ERR_VALID_EMAIL,
         },
-        address : EM_ERR_EXCLAMATION_MARK,
-        city : EM_ERR_EXCLAMATION_MARK,
-        district : EM_ERR_EXCLAMATION_MARK,
-        selectCategory : EM_ERR_EXCLAMATION_MARK,
-        selectWeekDays : EM_ERR_EXCLAMATION_MARK,
-        selectFeature : EM_ERR_EXCLAMATION_MARK,
-
-
+        address: EM_ERR_EXCLAMATION_MARK,
+        city: EM_ERR_EXCLAMATION_MARK,
+        district: EM_ERR_EXCLAMATION_MARK,
+        selectCategory: EM_ERR_EXCLAMATION_MARK,
+        selectWeekDays: EM_ERR_EXCLAMATION_MARK,
+        selectFeature: EM_ERR_EXCLAMATION_MARK,
       },
 
       submitHandler: function (formData, event) {
@@ -107,37 +106,48 @@ const AddGigForm = (props) => {
             })
             .get()
             .join(",");
-            ///serializing data to update in data base=================>
-            
-            let serilizeFromData = 
-            +"&features="+features+"&openingDays="+weekdays;
-            emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then((res)=>{   
-              if(res?.status !== 200) {
-                alert("Somthing went wrong")
-              }else {
-                alert("Your bussiness is uploaded successfully!")
-              }
-             })
+          ///serializing data to update in data base=================>
+
+          let serilizeFromData = $("#addGigForm").serialize()+"&features=" + features + "&openingDays=" + weekdays;
+          setSerielizeData(serilizeFromData);
+
+          return false;
+          emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then(res => {
+            if (res?.status !== 200) {
+              alert("Somthing went wrong");
+            } else {
+              alert("Your bussiness is uploaded successfully!");
+            }
+          });
           // handleSubmitGig(formData, event, features, WeekDays);
-          
         } catch (error) {
-          console.log('error :>> ', error);
-          
+          console.log("error :>> ", error);
         }
-       
       },
     });
-
-      //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
-      getCallData(em_procedur_id?.all_categories).then((res) => {
-        setAllCategories(res?.data);
-      });
+ 
+    //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
+    getCallData(em_procedur_id?.all_categories).then(res => {
+      setAllCategories(res?.data);
+    });
   }, []);
 
   const handleCloseForm = () => {
     setShowGigForm(false);
   };
 
+  const handleSetImages = e => {
+    try {
+      let images = e.target.files;
+      if(images.length > 5) {
+        alert("Allowed only 5 images");
+      }else {
+        setImages(images);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -156,10 +166,33 @@ const AddGigForm = (props) => {
           </div>
           <form
             id="addGigForm"
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
             }}
           >
+            <div className="uploadShowImages add_body">
+                  <div className="optionsValues">
+                    <DragDropFileUpload
+                      multiple
+                      onChange={e => {
+                        handleSetImages(e);
+                      }}
+                      accept="image/png, image/gif, image/jpeg"
+                    />
+                  </div>
+                  <div className="showImages paddingTopBottom-2 em-flex em-flex-wrap">
+                    {Array.from(Shopimages).map(items => {
+                      return (
+                        <img
+                        className="padding-1"
+                          // width={100}
+                          height={100}
+                          src={items ? URL.createObjectURL(items) : null}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
             <div className="add_body em-border-bottom paddingBottom-2">
               <div className="allInputs paddingTop-2 em-flex ">
                 <TextBox
@@ -221,7 +254,7 @@ const AddGigForm = (props) => {
               </div>
               <div className="allInputs em-text-left marginTop-3 margin-1">
                 <div className="Heading">
-                  <h5>Features</h5>
+                  <h5>{"Features"}</h5>
                 </div>
                 <div className="optionsValues">
                   <CheckRadio
@@ -230,6 +263,11 @@ const AddGigForm = (props) => {
                     type={EM_TYPE_CHECKBOX}
                     className="emFeatures margin-1"
                   />
+                </div>
+              </div>
+              <div className="allInputs em-text-left marginTop-3 margin-1">
+                <div className="Heading">
+                  <h5>{"Upload Images"}</h5>
                 </div>
               </div>
               <div className="allInputs em-text-left marginTop-3 margin-1">
@@ -265,24 +303,20 @@ const AddGigForm = (props) => {
                   <TextBox
                     type={EM_TYPE_TEXT}
                     id=""
-                  inputClass="inputClass padding-1 marginTop-1"
-                  name="city"
+                    inputClass="inputClass padding-1 marginTop-1"
+                    name="city"
                     className="form-control "
                     placeholder={EM_PLACE_CITY}
                     defaultValue={EM_DEFAULT_CITY}
-                    
                   />
                   <TextBox
-                  inputClass="inputClass padding-1 marginTop-1"
-                  type={EM_TYPE_TEXT}
+                    inputClass="inputClass padding-1 marginTop-1"
                     id=""
+                    type={EM_TYPE_TEXT}
                     name="district"
                     className="form-control "
                     placeholder={EM_PLACE_DIST}
                     defaultValue={EM_DEFAULT_DIST}
-                    
-                    
-                    
                   />
                 </div>
               </div>

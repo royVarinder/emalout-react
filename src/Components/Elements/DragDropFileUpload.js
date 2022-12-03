@@ -19,6 +19,7 @@ const DragDropFileUpload =(props)=>{
             defaultValue= {props?.defaultValue}
             onDrop = {props?.onDrop}
             onChange ={props?.onChange}
+            accept={props?.accept}
         />
         <p>
         Drag & Drop 

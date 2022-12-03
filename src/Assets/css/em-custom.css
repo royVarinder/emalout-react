@@ -395,3 +395,70 @@ label.error {
   animation: fadeInAnimation 1s;
   
 }
+
+/* NEWS PAGE TEMPLATE CSS  */
+.newsLeft,
+.newsRight {
+  flex: 0 0 50%;
+  width: 50%;
+  position: relative;
+}
+
+
+/* .newsRight {
+  background-color: #888;
+} */
+
+.channelLogo img {
+  width:80px;
+}
+.newsdateTime p,
+.AuthorName p {
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* .newsImages img {
+  width:100%;
+} */
+
+.newsImages .slick-next {
+  right: 8px;
+}
+
+.newsImages .slick-prev {
+  left: 2px;
+}
+.newsDescription {
+  height: 100%;
+  max-height: 20rem;
+  overflow: overlay;
+  width: 100%;
+  max-width: 100%;
+}
+.newsChannel {
+  flex: 0 0 25%;
+  width: 25%;
+}
+
+.newsTitle h3 {
+  line-height: 2rem;
+}
+.newsDescription p {
+  text-align: justify;
+}
+
+.channelImage {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+.channelImage img {
+  width:110px;
+}
+
+/* UPLOAD IMAGES CSS  */
+
+.uploadShowImages {
+  position: relative;
+}
