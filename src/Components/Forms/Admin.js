@@ -53,7 +53,7 @@ import {
 import { emPostData, getCallData, setSessionData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = props => {
   const { showAdminPopup, setShowAdminPopup } = props;

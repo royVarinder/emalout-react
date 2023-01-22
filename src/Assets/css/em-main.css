@@ -2117,3 +2117,6 @@ button {
  */
 
 
+ .validationFormError p {
+  font-size: 12px;
+}

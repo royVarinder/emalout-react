@@ -80,7 +80,7 @@
 
 label.error {
   position: absolute;
-  top: 14%;
+  top: 20%;
   right: 3%;
   color:var(--em-error);
 }

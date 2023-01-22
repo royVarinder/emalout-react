@@ -5,6 +5,7 @@ const TextBox =(props)=>{
     // const { loading = false, action, title, children, data } = props; // for backu
     const { loading = false,  title,  data } = props;
 
+
         return (
             <div className={props?.inputClass}>
             <input
@@ -20,8 +21,9 @@ const TextBox =(props)=>{
             multiple = {props?.multiple}
             rows = {props.rows}
             defaultValue= {props?.defaultValue}
-            required={props?.required}
-            
+            required={props?.required}  
+            onChange={props?.onChange}  
+            onBlur={props?.onBlur}        
         />
         </div>
         )

@@ -15,6 +15,7 @@ if(data !== undefined && data !== null && data !== "") {
       name ={props?.name}
       defaultValue ={props?.defaultValue}
     >
+      <option value={""} >{"--Select--"}</option>
       {data.map((items, index) => {
         return <option key={index} value={items?.id} >{items?.value}</option>;
       })}

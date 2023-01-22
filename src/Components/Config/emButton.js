@@ -8,7 +8,8 @@ export const EM_ADMIN  = "Admin";
 export const EM_CANCEL  = "Cancel";
 export const EM_SUBMIT  = "Submit";
 export const EM_LOGOUT  = "Log out";
-export const EM_LOGIN = "Log In"
+export const EM_LOGIN = "Log In";
+export const EM_BACK = "Back";
 
 
 // BUTTON ICONS =============

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createRef, useEffect, useRef, useState } from "react";
 import {
   EM_ADD_YOUR_GIG,
   EM_LOCATION,
@@ -16,15 +16,8 @@ import {
 } from "../Config/EmLabel";
 import Button from "../Elements/Button";
 import TextBox from "../Elements/InputControl";
-import jQuery from "jquery";
-import $ from "jquery";
-import jqueryValidate from "jquery-validation";
-import axios from "axios";
 import {
-  EM_ERR_EXCLAMATION_MARK,
-  EM_ERR_VALID_EMAIL,
-} from "../Config/emMessages";
-import {
+  EM_BACK,
   EM_CANCEL,
   EM_CLOSE_ICON,
   EM_SUBMIT,
@@ -39,97 +32,83 @@ import {
   EM_TYPE_TEXTAREA,
 } from "../Config/Input";
 import Select from "../Elements/Select";
-import { EM_DEFAULT_CITY, EM_DEFAULT_DIST } from "../Config/emSiteConfig";
+import { bussImagesURL, EM_DEFAULT_CITY, EM_DEFAULT_DIST, EM_NODE_API_URL } from "../Config/emSiteConfig";
 import CheckRadio from "../Elements/Checkbox";
 import DragDropFileUpload from "../Elements/DragDropFileUpload";
-import { EM_CATEGORIES, EM_FEATURES, EM_WEEKOFDAYS } from "../Config/Config";
-import { emPostData, getCallData } from "../Util";
+import {  EM_FEATURES, EM_WEEKOFDAYS } from "../Config/Config";
+import {   emNodePostData, emPostData, getCallData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
-import { toast } from "react-toastify";
+import { useFormInputValidation } from "react-form-input-validation";
+import { async } from "react-advanced-form";
+import { useForm } from "react-hook-form";
+import { useFormik } from "formik";
+import { AddBussFormSchema } from "../ValidationSchema";
+import e from "cors";
+import axios from "axios";
+import { EM_ERR_EXCLAMATION_MARK } from "../Config/emMessages";
+
+const initialValues = {
+  name : "",
+  yourContact:"",
+  bussinessName:"",
+  bussinessContact:"",
+  emailAddress:"",
+  selectCategory:"",
+  selectFeature:[],
+  selectWeekDays:[],
+  address:"",
+  city:EM_DEFAULT_CITY,
+  district:EM_DEFAULT_DIST,
+}
+
 
 const AddGigForm = props => {
   const { showAddGig, setShowGigForm } = props;
   const [allCategories, setAllCategories] = useState([]);
   const [Shopimages, setImages] = useState([]);
-  const [serielizeData, setSerielizeData] = useState();
+  const [serielizeData, setSerielizeData] = useState({});
+  const [uploadedImages, setUploadedImages] = useState({});
+  const formRef=useRef();
+  const  serialize = require('form-serialize');
+  const imagesArrayforDb = [];
+  const formData = new FormData();
+  let bussImages;
 
+  
+
+const {values, errors, handleBlur,touched, handleChange, handleSubmit} = useFormik ({
+  initialValues : initialValues,
+  validationSchema : AddBussFormSchema,
+  onSubmit  : (formData)=>{
+    try {
+      let updatedFormData = {
+        buss_address : formData.address,
+        bussinessContact :formData.bussinessContact,
+        bussinessName : formData.bussinessName,
+        buss_city : formData.city,
+        buss_district : formData.district,
+        emailAddress : formData.emailAddress,
+        yourName : formData.name,
+        selectCategory_id :formData.selectCategory,
+        selectFeature :formData.selectFeature.toString(),
+        selectWeekDays :formData.selectWeekDays.toString(),
+        yourContact :formData.yourContact,
+        bussImages : uploadedImages.toString(),
+      }
+      emNodePostData(em_procedur_id?.em_node_buss_manage_api,updatedFormData).then((res)=>{
+        console.log('res :>> ', res);
+      })
+    } catch (error) {
+      console.error(error);
+    }
+    // setNowUploadImages(false);
+  },
+})
   useEffect(() => {
-    console.log("images :>> ", serielizeData);
-  }, [serielizeData]);
-
-  useEffect(() => {
-    $("#addGigForm").validate({
-      rules: {
-        yourName: { required: true },
-        yourContact: { required: true },
-        bussinessName: { required: true },
-        bussinessContact: { required: true },
-        selectCategory: { required: true },
-        emailAddress: { required: true, email: true },
-        address: { required: true },
-        city: { required: true },
-        district: { required: true },
-        selectFeature: { required: true },
-        selectWeekDays: { required: true },
-      },
-      messages: {
-        yourName: EM_ERR_EXCLAMATION_MARK,
-        yourContact: EM_ERR_EXCLAMATION_MARK,
-        bussinessName: EM_ERR_EXCLAMATION_MARK,
-        bussinessContact: EM_ERR_EXCLAMATION_MARK,
-        emailAddress: {
-          required: EM_ERR_EXCLAMATION_MARK,
-          email: EM_ERR_VALID_EMAIL,
-        },
-        address: EM_ERR_EXCLAMATION_MARK,
-        city: EM_ERR_EXCLAMATION_MARK,
-        district: EM_ERR_EXCLAMATION_MARK,
-        selectCategory: EM_ERR_EXCLAMATION_MARK,
-        selectWeekDays: EM_ERR_EXCLAMATION_MARK,
-        selectFeature: EM_ERR_EXCLAMATION_MARK,
-      },
-
-      submitHandler: function (formData, event) {
-        try {
-          event.preventDefault();
-          //getting features from the checkbox values checkbox values =======================>
-          let features = $("input[name='selectFeature']:checked")
-            .map(function () {
-              return this.value;
-            })
-            .get()
-            .join(",");
-          //getting week days from the checkbox values =====================>
-          let weekdays = $("input[name='selectWeekDays']:checked")
-            .map(function () {
-              return this.value;
-            })
-            .get()
-            .join(",");
-          ///serializing data to update in data base=================>
-
-          let serilizeFromData = $("#addGigForm").serialize()+"&features=" + features + "&openingDays=" + weekdays;
-          setSerielizeData(serilizeFromData);
-
-          return false;
-          emPostData(em_procedur_id?.uploadBuss, serilizeFromData).then(res => {
-            if (res?.status !== 200) {
-              alert("Somthing went wrong");
-            } else {
-              alert("Your bussiness is uploaded successfully!");
-            }
+          //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
+          getCallData(em_procedur_id?.em_node_buss_categories).then(res => {
+            setAllCategories(res?.data?.message);
           });
-          // handleSubmitGig(formData, event, features, WeekDays);
-        } catch (error) {
-          console.log("error :>> ", error);
-        }
-      },
-    });
- 
-    //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
-    getCallData(em_procedur_id?.all_categories).then(res => {
-      setAllCategories(res?.data);
-    });
   }, []);
 
   const handleCloseForm = () => {
@@ -139,15 +118,31 @@ const AddGigForm = props => {
   const handleSetImages = e => {
     try {
       let images = e.target.files;
+      let testImage = e.target.files[0];
       if(images.length > 5) {
-        alert("Allowed only 5 images");
       }else {
+        Array.from(images).map((items,index) => {
+             imagesArrayforDb.push(items.name)
+        })
         setImages(images);
+        const files = Array.from(images);
+        files.forEach(element => {
+          formData.append("profile", element,element?.name);
+        });
+        emNodePostData(em_procedur_id?.em_post_images_api, formData).then((res)=>{
+          if(res?.success){
+            setUploadedImages(res?.bussImageURL)  
+          }else {
+            setUploadedImages({})          
+          }
+        })
       }
     } catch (err) {
       console.error(err);
     }
   };
+
+
 
   return (
     <>
@@ -166,11 +161,145 @@ const AddGigForm = props => {
           </div>
           <form
             id="addGigForm"
-            onSubmit={e => {
-              e.preventDefault();
-            }}
-          >
-            <div className="uploadShowImages add_body">
+            onSubmit={handleSubmit}
+
+            >
+            <div className="add_body em-border-bottom paddingBottom-2">
+              <div className="addDetailsSection">
+              <div className="allInputs paddingTop-2 em-flex ">
+                <div className="inputClass padding-1 marginTop-1">
+                <TextBox
+                  type={EM_TYPE_TEXT}
+                  id=""
+                  className="form-control"
+                  name="name"
+                  placeholder={EM_PLACE_YOURNAME}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.name}
+                />
+                {errors?.name && touched.name &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.name}}
+                      />
+                    </label>}
+
+                </div>
+                <div className="inputClass padding-1 marginTop-1">
+
+                <TextBox
+                  type={EM_TYPE_NUMBER}
+                  name="yourContact"
+                  id=""
+                  inputClass="inputClass padding-1 marginTop-1"
+                  className="form-control "
+                  placeholder={EM_PLACE_YOURCONTACT}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.yourContact}
+                />
+                 {errors?.yourContact && touched.yourContact &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.yourContact}}
+                      />
+                    </label>}
+                </div>
+              </div>
+              <div className="allInputs em-flex em-horizontal-align-between">
+              <div className="inputClass padding-1 marginTop-1">
+
+                <TextBox
+                  type={EM_TYPE_TEXT}
+                  inputClass="inputClass padding-1 marginTop-1"
+                  id=""
+                  name="bussinessName"
+                  className="form-control"
+                  placeholder={EM_PLACE_BUSNAME}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.bussinessName}
+                />
+                 {errors?.bussinessName && touched.bussinessName &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.bussinessName}}
+                      />
+                    </label>}
+                </div>
+                <div className="inputClass padding-1 marginTop-1">
+
+                <TextBox
+                  type={EM_TYPE_NUMBER}
+                  name="bussinessContact"
+                  id=""
+                  inputClass="inputClass padding-1 marginTop-1"
+                  className="form-control "
+                  placeholder={EM_PLACE_BUSCONTACT}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.bussinessContact}
+                />
+                 {errors?.bussinessContact && touched.bussinessContact &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.bussinessContact}}
+                      />
+                    </label>}
+                </div>
+              </div>
+              <div className="allInputs ">
+              <div className="inputClass padding-1 marginTop-1">
+
+                <TextBox
+                  type={EM_TYPE_EMAIL}
+                  id=""
+                  inputClass="inputClass padding-1 marginTop-1"
+                  name="emailAddress"
+                  className="form-control "
+                  placeholder={EM_PLACE_EMAILADDRESS}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.emailAddress}
+                />
+                {errors?.emailAddress && touched.emailAddress &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.emailAddress}}
+                      />
+                    </label>}
+                </div>
+              </div>
+
+
+              <div className="allInputs em-text-left marginTop-3 margin-1">
+                <div className="Heading">
+                  <h5>{EM_SELECT_CATEGORY}</h5>
+                </div>
+                <div className="inputClass padding-1 marginTop-1">
+                <Select
+                  className="form-select"
+                  inputClass="inputClass padding-1 marginTop-1"
+                  data={allCategories}
+                  name="selectCategory"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.selectCategory}
+                />    
+                {errors?.selectCategory && touched.selectCategory &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.selectCategory}}
+                      />
+                    </label>}              
+                </div>
+
+              </div>
+              <div className="uploadShowImages add_body marginTop-3">
+            <div className="Heading em-text-left">
+                  <h5>{EM_UPLOAD_IMAGES}</h5>
+                </div>
                   <div className="optionsValues">
                     <DragDropFileUpload
                       multiple
@@ -178,6 +307,7 @@ const AddGigForm = props => {
                         handleSetImages(e);
                       }}
                       accept="image/png, image/gif, image/jpeg"
+                      name="bussImages"
                     />
                   </div>
                   <div className="showImages paddingTopBottom-2 em-flex em-flex-wrap">
@@ -193,65 +323,6 @@ const AddGigForm = props => {
                     })}
                   </div>
                 </div>
-            <div className="add_body em-border-bottom paddingBottom-2">
-              <div className="allInputs paddingTop-2 em-flex ">
-                <TextBox
-                  type={EM_TYPE_TEXT}
-                  id=""
-                  inputClass="inputClass padding-1 marginTop-1"
-                  className="form-control "
-                  name="yourName"
-                  placeholder={EM_PLACE_YOURNAME}
-                />
-                <TextBox
-                  type={EM_TYPE_NUMBER}
-                  name="yourContact"
-                  id=""
-                  inputClass="inputClass padding-1 marginTop-1"
-                  className="form-control "
-                  placeholder={EM_PLACE_YOURCONTACT}
-                />
-              </div>
-              <div className="allInputs em-flex em-horizontal-align-between">
-                <TextBox
-                  type={EM_TYPE_TEXT}
-                  inputClass="inputClass padding-1 marginTop-1"
-                  id=""
-                  name="bussinessName"
-                  className="form-control"
-                  placeholder={EM_PLACE_BUSNAME}
-                />
-                <TextBox
-                  type={EM_TYPE_NUMBER}
-                  name="bussinessContact"
-                  id=""
-                  inputClass="inputClass padding-1 marginTop-1"
-                  className="form-control "
-                  placeholder={EM_PLACE_BUSCONTACT}
-                />
-              </div>
-              <div className="allInputs ">
-                <TextBox
-                  type={EM_TYPE_EMAIL}
-                  id=""
-                  inputClass="inputClass padding-1 marginTop-1"
-                  name="emailAddress"
-                  className="form-control "
-                  placeholder={EM_PLACE_EMAILADDRESS}
-                />
-              </div>
-
-              <div className="allInputs em-text-left marginTop-3 margin-1">
-                <div className="Heading">
-                  <h5>{EM_SELECT_CATEGORY}</h5>
-                </div>
-                <Select
-                  className="form-select"
-                  inputClass="inputClass padding-1 marginTop-1"
-                  data={allCategories}
-                  name="selectCategory"
-                />
-              </div>
               <div className="allInputs em-text-left marginTop-3 margin-1">
                 <div className="Heading">
                   <h5>{"Features"}</h5>
@@ -262,25 +333,40 @@ const AddGigForm = props => {
                     name="selectFeature"
                     type={EM_TYPE_CHECKBOX}
                     className="emFeatures margin-1"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  value={values?.selectFeature}
                   />
+                  {errors?.selectFeature && touched.selectFeature &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.selectFeature}}
+                      />
+                    </label>}  
                 </div>
               </div>
-              <div className="allInputs em-text-left marginTop-3 margin-1">
-                <div className="Heading">
-                  <h5>{"Upload Images"}</h5>
-                </div>
-              </div>
+            
               <div className="allInputs em-text-left marginTop-3 margin-1">
                 <div className="Heading">
                   <h5>{EM_OPENING_DAYS}</h5>
                 </div>
                 <div className="optionsValues">
+
                   <CheckRadio
                     data={EM_WEEKOFDAYS}
                     name="selectWeekDays"
                     type={EM_TYPE_CHECKBOX}
                     className="emOpeningDays margin-1"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  value={values?.selectWeekDays}
                   />
+                  {errors?.selectWeekDays && touched.selectWeekDays &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.selectWeekDays}}
+                      />
+                    </label>}  
                 </div>
               </div>
 
@@ -288,6 +374,8 @@ const AddGigForm = props => {
                 <div className="Heading">
                   <h5>{EM_LOCATION}</h5>
                 </div>
+                <div className="inputClass padding-1 marginTop-1">
+
                 <TextBox
                   type={EM_TYPE_TEXTAREA}
                   id=""
@@ -296,10 +384,22 @@ const AddGigForm = props => {
                   className="form-control "
                   placeholder={EM_PLACE_ADDRESS}
                   rows={6}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values?.address}
                 />
+                 {errors?.address && touched.address &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.address}}
+                      />
+                    </label>}  
+                </div>
               </div>
               <div className="allInputs ">
                 <div className="em-flex">
+                <div className="inputClass padding-1 marginTop-1">
+
                   <TextBox
                     type={EM_TYPE_TEXT}
                     id=""
@@ -307,8 +407,19 @@ const AddGigForm = props => {
                     name="city"
                     className="form-control "
                     placeholder={EM_PLACE_CITY}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
                     defaultValue={EM_DEFAULT_CITY}
+                  value={values?.city}
                   />
+                   {errors?.city && touched.city &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.city}}
+                      />
+                    </label>}  
+                  </div>
+                  <div className="inputClass padding-1 marginTop-1">
                   <TextBox
                     inputClass="inputClass padding-1 marginTop-1"
                     id=""
@@ -316,10 +427,22 @@ const AddGigForm = props => {
                     name="district"
                     className="form-control "
                     placeholder={EM_PLACE_DIST}
+                    onChange={handleChange}
+                    onBlur={handleBlur}  
                     defaultValue={EM_DEFAULT_DIST}
+
+                  value={values?.district}
                   />
+                  {errors?.district && touched.district &&           
+                   <label className="error">
+                       <div
+                        dangerouslySetInnerHTML={{__html: errors.district}}
+                      />
+                    </label>}  
+                  </div>
                 </div>
               </div>
+            </div> 
             </div>
             <div className="add_footer em-text-right paddingTop-2">
               <Button
@@ -331,14 +454,16 @@ const AddGigForm = props => {
                   handleCloseForm();
                 }}
               />
-              <Button
+               <Button
                 title={EM_SUBMIT}
                 id=""
                 type={TYPE_SUBMIT}
                 className="em-button-default marginRight-2"
+                onClick={()=>{}}
               />
             </div>
-          </form>
+            </form>
+           
         </div>
       </div>
     </>

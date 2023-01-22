@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { em_procedur_id } from "../Config/procedureIds";
 import Button from "../Elements/Button";
 import { getCallData, getSessionData } from "../Util";
-import { useNavigate } from "react-router";
 import { EM_ADMIN_DETAILS } from "../Config/Config";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
  
