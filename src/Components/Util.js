@@ -3,16 +3,15 @@ import React, { useState } from "react";
 import { EM_NODE_API_URL, processIdURL } from "./Config/emSiteConfig";
 
 
-export const getCallData = (processId) => {
-    try {
-        let PROCESS_ID_URL = EM_NODE_API_URL+processId;
-        return axios.get(PROCESS_ID_URL);
-    } catch (error) {
-        console.log('getCallData :>> ', error);
-        return {};
-    }
-  
-}
+// export const getCallData = (processId) => {
+//     try {
+//         let PROCESS_ID_URL = EM_NODE_API_URL+processId;
+//         return axios.get(PROCESS_ID_URL);
+//     } catch (error) {
+//         console.log('getCallData :>> ', error);
+//         return {};
+//     }
+// }
 
 export const emPostData = (processId, data) => {
     try {
@@ -70,4 +69,24 @@ export const emNodePostData =(processId, postData)=>{
         return {};
     }
   
+}
+
+export const getCallData = (processId) => {
+    try {
+        let PROCESS_ID_URL = EM_NODE_API_URL+processId;
+        return axios.get(PROCESS_ID_URL);
+    } catch (error) {
+        console.log('getCallData :>> ', error);
+        return {};
+    }
+}
+
+export const getDataById = (processId, id) => {
+    try {
+        let PROCESS_ID_URL = EM_NODE_API_URL+processId;
+        return axios.get(PROCESS_ID_URL+"/"+id);
+    } catch (error) {
+        console.log('getCallData :>> ', error);
+        return {};
+    }
 }

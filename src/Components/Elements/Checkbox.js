@@ -21,6 +21,7 @@ const CheckRadio = (props) => {
               name={props?.name + []}
               checked={props?.checked}
               onChange={props?.onChange}
+              readOnly = {props?.readOnly}
             />
             {items.name}
           </label>
