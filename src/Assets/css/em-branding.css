@@ -48,6 +48,7 @@ input[type=number] {
     --em-button-default:#14b5c0;
     --em-button-highlight: #ebb82e;
     --em-button-hover: #2a5153;
+    --white : #ffffff;
 
     --em-success: #66bb6a;
     --em-warning: #ffa726;

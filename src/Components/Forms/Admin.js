@@ -47,6 +47,7 @@ import DragDropFileUpload from "../Elements/DragDropFileUpload";
 import {
   EM_ADMIN_DETAILS,
   EM_CATEGORIES,
+  EM_CHANNEL_DETAILS,
   EM_FEATURES,
   EM_WEEKOFDAYS,
 } from "../Config/Config";
@@ -75,29 +76,28 @@ const AdminLogin = props => {
         try {
           event.preventDefault();
           let serilizeFromData = $("#adminLogin").serialize();
-          emPostData(
-            em_procedur_id?.emalout_validate_admin_user,
-            serilizeFromData
-          ).then(res => {
-            let dataObj = res?.data;
-            let dataLength = res?.data.length;
-            if (dataLength === 2) {
-              alert("Invalid Credentials");
-            } else {
-              handleCloseForm();
-              setSessionData(EM_ADMIN_DETAILS, dataObj);
-              navigate(NAV_ADMIN);
-            }
-          });
+          const _formData = new FormData(formData);
+          let jsonObject = {};
+          for (const [key, value] of _formData.entries()) {
+            jsonObject[key] = value;
+          }
+          emPostData(em_procedur_id?.emalout_validate_admin_user, jsonObject)
+            .then((res) => {
+              if (res.success === 1) {
+                handleCloseForm();
+                setSessionData(EM_ADMIN_DETAILS, res?.data);
+                if(res?.channel){
+                  setSessionData(EM_CHANNEL_DETAILS, res?.channel);
+                }
+                navigate(NAV_ADMIN);
+                return;
+              }
+              toast.error(res?.message);
+            });
         } catch (error) {
           console.log("error :>> ", error);
         }
       },
-    });
-
-    //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
-    getCallData(em_procedur_id?.all_channels).then(res => {
-      setallChannels(res?.data);
     });
   }, []);
 
@@ -132,7 +132,7 @@ const AdminLogin = props => {
                 id="adminUsernameId"
                 inputClass="inputClass padding-1 marginTop-1"
                 className="form-control "
-                name="adminUsername"
+                name="admin_username"
                 placeholder={EM_PLACE_ADMIN}
               />
 
@@ -141,15 +141,8 @@ const AdminLogin = props => {
                 id="adminPasswordId"
                 inputClass="inputClass padding-1 marginTop-1"
                 className="form-control "
-                name="adminPassword"
+                name="admin_password"
                 placeholder={EM_PLACE_PASSWORD}
-              />
-
-              <Select
-                className="form-select"
-                inputClass="inputClass padding-1 marginTop-1"
-                data={allChannels}
-                name="selectedChannelId"
               />
             </div>
             <div className="add_footer em-text-right paddingTop-2">

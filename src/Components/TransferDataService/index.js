@@ -4,7 +4,7 @@ const subject = new Subject();
 
 // Context - patient_banner, parent_child, actions
 
-const DtServi = {
+const DtService = {
     sendMessage: (
         senderId,
         message ,
@@ -17,4 +17,4 @@ const DtServi = {
     clearMessages: () => subject.next(),
     onMessage: (id) => subject.asObservable().pipe(filter(m => m && (m.id === id || id === undefined))),
 };
-export default DtServi
+export default DtService

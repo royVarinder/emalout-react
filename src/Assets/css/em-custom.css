@@ -462,3 +462,78 @@ label.error {
 .uploadShowImages {
   position: relative;
 }
+
+
+/* css of channel portal */
+
+.leftContainer {
+  text-align: left;
+  flex : 0 0 20%;
+}
+
+
+.rightContainer {
+  flex : 0 0 80%;
+}
+
+.menuList .menuItem {
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.5s ease;
+    margin-top: 0.5rem;
+}
+
+.menuList p {
+  margin : 0!important;
+  
+}
+
+
+.menuList .menuItem:hover {
+  background-color: #adadad;
+  transition: all 0.5s ease;
+}
+
+.menuList .menuItemActive {
+  background-color: #adadad;
+}
+
+.menuList .menuItemIsDisabled {
+  opacity: 0.5;
+}
+
+.rightContainer table {
+  width: 100%;
+  text-align: left;
+}
+
+
+/* Reset default margin and padding for the table */
+.smooth-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Style table header */
+.smooth-table th {
+  background-color: #f2f2f2;
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+/* Style table rows */
+.smooth-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+}
+
+/* Style alternate rows */
+.smooth-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Hover effect on rows */
+.smooth-table tbody tr:hover {
+  background-color: #ddd;
+}

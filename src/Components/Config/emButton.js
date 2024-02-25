@@ -10,6 +10,9 @@ export const EM_SUBMIT  = "Submit";
 export const EM_LOGOUT  = "Log out";
 export const EM_LOGIN = "Log In";
 export const EM_BACK = "Back";
+export const EM_EDIT = 'Edit';
+export const EM_VIEW = 'View';
+export const EM_DELETE = 'Delete';
 
 
 // BUTTON ICONS =============

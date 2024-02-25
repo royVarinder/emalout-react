@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import Logo from "../../Assets/img/emalout-logo.png"
 import Logo2 from "../../Assets/img/emalout-logo2.png";
-import { EM_ADMIN_DETAILS, MENU_ITEMS } from "../Config/Config";
+import { EM_ADMIN_DETAILS, EM_CHANNEL_DETAILS, MENU_ITEMS } from "../Config/Config";
 import { EM_ADD, EM_ADMIN, EM_LOGOUT, EM_MOBILE_MENU_ICON, EM_SEARCH } from "../Config/emButton";
 import { FLAG_ADD_BTN, FLAG_ADMIN_BTN, FLAG_SEARCH_BTN } from "../Config/emSiteConfig";
 import Button from "../Elements/Button";
@@ -62,6 +62,7 @@ useEffect(()=>{
   const handleAdminLogout=()=>{
     try {
       removeFromSession(EM_ADMIN_DETAILS);
+      removeFromSession(EM_CHANNEL_DETAILS);
       setIsLoggedIn(false);
       navigate("/")
     } catch (error) {

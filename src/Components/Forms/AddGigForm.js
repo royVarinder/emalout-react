@@ -104,7 +104,9 @@ const AddGigForm = props => {
             updatedFormData
           ).then(res => {
             console.log("res :>> ", res);
-            // handleCloseForm();
+            if(res?.success){
+              handleCloseForm();
+            }
           });
         } catch (error) {
           console.error(error);
@@ -126,7 +128,6 @@ const AddGigForm = props => {
   const handleSetImages = e => {
     try {
       let images = e.target.files;
-      console.log("images :>> ", images);
       if (images.length > 5) {
       } else {
         Array.from(images).map((items, index) => {

@@ -66,4 +66,8 @@ export const EM_WEEKOFDAYS = [
 
   //SESSION STORAGE KEYS ===================>
 
-  export const EM_ADMIN_DETAILS = "adminDetails"
+  export const EM_ADMIN_DETAILS = "adminDetails";
+  export const EM_CHANNEL_DETAILS = 'adminChannelDetails';
+
+
+ 

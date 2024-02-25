@@ -7,7 +7,6 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 import DtService from "../TransferDataService";
 
 const HomePage = () => {
- 
   const [allCategories, setAllCategories] = useState([]);
   const [allBussiness, setAllBussiness] = useState([]);
   let navigate = useNavigate();
@@ -32,6 +31,10 @@ const HomePage = () => {
     // CALLING DATA ONE BY ONE BY CATEGORY =======================>
   }, []);
 
+  const object = {
+    name : 'Varinder',
+    age : '34'
+  }
 
 
   return (
@@ -54,7 +57,6 @@ const HomePage = () => {
                     if (cat_id === category_id) {
                         return  (
                           <div key = {index} className="bussList" onClick={()=>{
-                            DtService.sendMessage("homePage", {id :items?.id }, "bussPage")
                             navigate({
                               pathname : '/buss',
                               search : createSearchParams({
