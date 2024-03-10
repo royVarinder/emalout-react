@@ -61,6 +61,7 @@ export const EM_WEEKOFDAYS = [
     speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,
+    arrows : true,
   };
 
 

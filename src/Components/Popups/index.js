@@ -4,17 +4,22 @@ import AddUpdateNews from "../Forms/AddUpdateNews";
 
 const Popups = ()=>{
     const [addUpdateNews,setAddUpdateNews] = useState({
-        data : {},
         show : false,
+        newsId : '',
     });
     useEffect(()=>{
             DtService.onMessage().subscribe((m)=>{
-                console.log('m :>> ', m);
+                if(m.senderId === "newsManagement" && m.target === "popups"){
+                    setAddUpdateNews({
+                        show : m.text.param,
+                        newsId : m.text.newsId,
+                    })
+                }
             })
     },[])
 
     return (
-        addUpdateNews?.show && <AddUpdateNews />
+        addUpdateNews?.show && <AddUpdateNews newsId = {addUpdateNews?.newsId} />
     )
 }
 export default Popups;

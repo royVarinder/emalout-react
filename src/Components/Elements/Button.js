@@ -1,12 +1,12 @@
 import React from "react";
 
 
-const Button =(props)=>{
+const Button = (props) => {
     // const { loading = false, action, title, children, data } = props; // for backu
-    const { loading = false,  title,  data } = props;
+    const { loading = false, title, data } = props;
 
-        return (
-            <button
+    return (
+        <button
             id={props?.id}
             className={props?.className}
             style={loading ? { ...props?.style, opacity: '0.8' } : props?.style}
@@ -16,8 +16,8 @@ const Button =(props)=>{
             data={data}
         >
             {title}
-            </button>
-        )
+        </button>
+    )
 
 }
 export default Button;

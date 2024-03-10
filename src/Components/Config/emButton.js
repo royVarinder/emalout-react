@@ -13,6 +13,8 @@ export const EM_BACK = "Back";
 export const EM_EDIT = 'Edit';
 export const EM_VIEW = 'View';
 export const EM_DELETE = 'Delete';
+export const EM_UPDATE = 'Update';
+export const EM_COMMENTS = "Comments";
 
 
 // BUTTON ICONS =============
@@ -25,7 +27,7 @@ export const EM_MOBILE_MENU_ICON  = <i class="fa fa-bars" aria-hidden="true"></i
 
 // BUTTON TYPES ================
 
-export const TYPE_BUTTON  = "Button";
-export const TYPE_SUBMIT  = "Submit";
+export const TYPE_BUTTON  = "utton";
+export const TYPE_SUBMIT  = "submit";
 
 

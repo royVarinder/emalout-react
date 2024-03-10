@@ -1,4 +1,3 @@
-
 /* width */
 ::-webkit-scrollbar {
   width: 0px;
@@ -39,14 +38,17 @@
   position: fixed;
   width: 100%;
 }
+
 .menuItems {
   color: var(--em-white);
   font-weight: var(--em-font-semiBold);
 }
+
 .menuListed {
   list-style-type: none;
   font-size: var(--em-font-size-regular);
 }
+
 .menuListing {
   transition: all 0.5s ease-in-out;
 }
@@ -60,16 +62,18 @@
   /* display: none; */
 
 }
+
 .main-content {
   background: #f3f3f3;
   height: 87vh;
   overflow-y: auto;
 }
+
 .AddGigFormModal {
   width: 50%;
   background: var(--em-white);
   margin: 1% auto;
-  animation: fadeInAnimation 1s ;
+  animation: fadeInAnimation 1s;
 
 }
 
@@ -82,10 +86,11 @@ label.error {
   position: absolute;
   top: 20%;
   right: 3%;
-  color:var(--em-error);
+  color: var(--em-error);
 }
+
 .inputClass {
-  width : 100%;
+  width: 100%;
   position: relative;
 }
 
@@ -93,21 +98,23 @@ label.error {
 /* DRAG & DROP STYLING */
 .DragAndDrop {
   background-color: var(--em-border);
-  padding:3rem;
+  padding: 3rem;
   text-align: center;
   border-radius: 0.5rem;
-  border : 0.5px solid rgb(136, 128, 128);
-  position:relative;
+  border: 0.5px solid rgb(136, 128, 128);
+  position: relative;
 
 }
- .DragAndDrop input  {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    opacity : 0;
-    width: 100%;
-} 
+
+.DragAndDrop input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  opacity: 0;
+  width: 100%;
+}
+
 /* MOBILE MENU =====================> */
 
 .mobileMenuModal {
@@ -116,7 +123,7 @@ label.error {
   width: 40%;
   height: 100%;
   background: #f3f3f3;
-  animation : fadeInAnimation 1s;
+  animation: fadeInAnimation 1s;
 }
 
 
@@ -142,11 +149,13 @@ label.error {
 }
 
 .categoryHeading h5 {
-  margin :0;
+  margin: 0;
 }
+
 .cateogryBody p {
-  margin :0.5rem;
+  margin: 0.5rem;
 }
+
 .cateogryBody {
   overflow-y: auto;
   height: 100%;
@@ -156,6 +165,55 @@ label.error {
 
 .optionsValues {
   position: relative;
+}
+
+
+/* ADD UPDATE NEWS CSS */
+
+.rightPanelModal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 30%;
+  background: var(--em-white);
+}
+
+.newsImages,
+.newsImagesNewsList {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  max-height: 34rem;
+  overflow: overlay;
+}
+
+.newsImages img,
+.newsImages video {
+  width: 16rem;
+}
+
+.newsImagesNewsList img,
+.newsImagesNewsList video {
+  width: 28rem;
+}
+
+.newsImages .imageContainer {
+  margin: 5px;
+  position: relative;
+}
+
+span.newsImagesCloseIcon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  /* padding: 5px; */
+  cursor: pointer;
+}
+
+.createdAtDiv {
+  text-align: left;
+  margin: 10px 4px;
 }
 
 /* //RESPONSIVE DESIGN ==========> */
@@ -170,54 +228,61 @@ label.error {
 }
 } */
 @media (min-width: 320px) {
+
   /* RESPONSIVE OF ADD GIG MODAL */
   .AddGigFormModal {
     width: 100%;
-}
-/* LANDING PAGE =======> */
+  }
+
+  /* LANDING PAGE =======> */
   .categoryCard {
     flex: 0 0 90%;
     max-width: 90%;
-}
+  }
 
-/* HEADER ===============> */
+  /* HEADER ===============> */
   .siteMenuDesktop {
     display: none;
-}
-.siteLogo {
-      flex: 0 0 22%;
-      max-width: 22%;
-}
-.emRouterPath.landingPage {
-  padding-top: 4.4rem;
-  /* display: none; */
-}
- 
-.siteLogo img {
-  width: 90%;
-}
+  }
+
+  .siteLogo {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 4.4rem;
+    /* display: none; */
+  }
+
+  .siteLogo img {
+    width: 90%;
+  }
 }
 
 @media (min-width: 425px) {
   .categoryCard {
     flex: 0 0 90%;
     max-width: 90%;
-}
+  }
+
   .siteMenuDesktop {
     display: none;
-}
-.siteLogo {
-      flex: 0 0 22%;
-      max-width: 22%;
-}
-.emRouterPath.landingPage {
-  padding-top: 4.4rem;
-  /* display: none; */
-}
- 
-.siteLogo img {
-  width: 90%;
-}
+  }
+
+  .siteLogo {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 4.4rem;
+    /* display: none; */
+  }
+
+  .siteLogo img {
+    width: 90%;
+  }
 }
 
 
@@ -225,114 +290,132 @@ label.error {
   .categoryCard {
     flex: 0 0 70%;
     max-width: 70%;
-}
+  }
+
   .siteMenuDesktop {
     display: none;
-}
-.siteLogo {
-      flex: 0 0 22%;
-      max-width: 22%;
-}
-.emRouterPath.landingPage {
-  padding-top: 4.4rem;
-  /* display: none; */
-}
- 
-.siteLogo img {
-  width: 70%;
-}
+  }
+
+  .siteLogo {
+    flex: 0 0 22%;
+    max-width: 22%;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 4.4rem;
+    /* display: none; */
+  }
+
+  .siteLogo img {
+    width: 70%;
+  }
 }
 
 @media (min-width: 768px) {
   .AddGigFormModal {
     width: 80%;
-}
-    .categoryCard {
+  }
+
+  .categoryCard {
     flex: 0 0 30%;
     max-width: 30%;
-}
+  }
+
   .siteMenuDesktop {
     display: none;
-}
-.siteLogo {
-  flex: 0 0 15%;
-  max-width: 15%;
-}
-.em_mobile_menu_button {
-  display: block;
-}
-.emRouterPath.landingPage {
-  padding-top: 4rem;
-  /* display: none; */
+  }
 
-}
+  .siteLogo {
+    flex: 0 0 15%;
+    max-width: 15%;
+  }
+
+  .em_mobile_menu_button {
+    display: block;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 4rem;
+    /* display: none; */
+
+  }
 }
 
 @media (min-width: 992px) {
   .AddGigFormModal {
     width: 70%;
-}
+  }
+
   .categoryCard {
     flex: 0 0 32%;
     max-width: 32%;
-}
+  }
+
   .siteMenuDesktop {
     display: block;
-}
-.siteLogo {
-  flex: 0 0 10%;
-  max-width: 10%;
-}
-.em_mobile_menu_button {
-  display: none;
-}
-.emRouterPath.landingPage {
-  padding-top: 4.7rem;
-  /* display: none; */
-}
-.siteLogo img {
-  width: 100%;
-}
+  }
+
+  .siteLogo {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
+
+  .em_mobile_menu_button {
+    display: none;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 4.7rem;
+    /* display: none; */
+  }
+
+  .siteLogo img {
+    width: 100%;
+  }
 }
 
 @media (min-width: 1200px) {
   .categoryCard {
     flex: 0 0 24%;
     max-width: 24%;
-}
+  }
+
   .siteMenuDesktop {
     display: block;
-}
-.siteLogo {
-  flex: 0 0 10%;
-  max-width: 10%;
-}
+  }
 
-.emRouterPath.landingPage {
-  padding-top: 5.5rem;
-  /* display: none; */
+  .siteLogo {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
 
-}
+  .emRouterPath.landingPage {
+    padding-top: 5.5rem;
+    /* display: none; */
+
+  }
 }
 
 @media (min-width: 1440px) {
   .categoryCard {
     flex: 0 0 24%;
     max-width: 24%;
-}
+  }
+
   .siteMenuDesktop {
     display: block;
-}
-.siteLogo {
-  flex: 0 0 10%;
-  max-width: 10%;
-}
+  }
 
-.emRouterPath.landingPage {
-  padding-top: 6.5rem;
-  /* display: none; */
+  .siteLogo {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
 
-}
+  .emRouterPath.landingPage {
+    padding-top: 6.5rem;
+    /* display: none; */
+
+  }
 }
 
 
@@ -340,22 +423,26 @@ label.error {
   .categoryCard {
     flex: 0 0 19%;
     max-width: 19%;
-}
+  }
+
   .siteMenuDesktop {
     display: block;
-}
-.siteLogo {
-  flex: 0 0 13%;
-  max-width: 13%;
-}
-.emRouterPath.landingPage {
-  padding-top: 6.4rem;
-  /* display: none; */
+  }
 
-}
-.siteLogo img {
-  width: 54%;
-}
+  .siteLogo {
+    flex: 0 0 13%;
+    max-width: 13%;
+  }
+
+  .emRouterPath.landingPage {
+    padding-top: 6.4rem;
+    /* display: none; */
+
+  }
+
+  .siteLogo img {
+    width: 54%;
+  }
 }
 
 
@@ -393,7 +480,7 @@ label.error {
   background: var(--em-white);
   margin: 5rem auto;
   animation: fadeInAnimation 1s;
-  
+
 }
 
 /* NEWS PAGE TEMPLATE CSS  */
@@ -410,8 +497,9 @@ label.error {
 } */
 
 .channelLogo img {
-  width:80px;
+  width: 80px;
 }
+
 .newsdateTime p,
 .AuthorName p {
   font-style: italic;
@@ -429,13 +517,15 @@ label.error {
 .newsImages .slick-prev {
   left: 2px;
 }
+
 .newsDescription {
-  height: 100%;
+  /* height: 100%; */
   max-height: 20rem;
   overflow: overlay;
   width: 100%;
   max-width: 100%;
 }
+
 .newsChannel {
   flex: 0 0 25%;
   width: 25%;
@@ -444,6 +534,7 @@ label.error {
 .newsTitle h3 {
   line-height: 2rem;
 }
+
 .newsDescription p {
   text-align: justify;
 }
@@ -453,8 +544,9 @@ label.error {
   top: 5px;
   left: 5px;
 }
+
 .channelImage img {
-  width:110px;
+  width: 110px;
 }
 
 /* UPLOAD IMAGES CSS  */
@@ -468,24 +560,24 @@ label.error {
 
 .leftContainer {
   text-align: left;
-  flex : 0 0 20%;
+  flex: 0 0 14%;
 }
 
 
 .rightContainer {
-  flex : 0 0 80%;
+  flex: 0 0 86%;
 }
 
 .menuList .menuItem {
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.5s ease;
-    margin-top: 0.5rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+  margin-top: 0.5rem;
 }
 
 .menuList p {
-  margin : 0!important;
-  
+  margin: 0 !important;
+
 }
 
 
@@ -505,6 +597,11 @@ label.error {
 .rightContainer table {
   width: 100%;
   text-align: left;
+}
+
+.newsManagementWrapper {
+  text-align: left;
+
 }
 
 

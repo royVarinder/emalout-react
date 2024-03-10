@@ -20,7 +20,7 @@ const AdminPortal = () => {
   let channelName = '';
   let channelLogo = '';
   const adminAdminDetails = getSessionData(EM_ADMIN_DETAILS);
-  if(!!!adminAdminDetails){
+  if (!!!adminAdminDetails) {
     navigate("/")
   }
   const adminChannelDetails = getSessionData(EM_CHANNEL_DETAILS);
@@ -28,8 +28,8 @@ const AdminPortal = () => {
 
   try {
     if (!!adminChannelDetails) {
-      const { channel_admin_id, channel_name, channel_logo } = adminChannelDetails[0];
-      channel_id = channel_admin_id;
+      const { channel_admin_id, id,  channel_name, channel_logo } = adminChannelDetails[0];
+      channel_id = id;
       channelName = channel_name;
       channelLogo = channel_logo;
     }
@@ -135,16 +135,15 @@ const AdminPortal = () => {
               <ul className="menuList">
                 {channelMenuList.map((items, idx) => {
                   const isDisabled = items?.is_disabled === '1';
-                  return <li key={idx} className={`menuItem padding-2 ${isDisabled ? 'menuItemIsDisabled' : ''} ${items?.json_tag === selectedMenu ? 'menuItemActive' : '' }`}
-                    onClick={() => !isDisabled && handleSelectMenu(items)}s
-                  >
+                  return <li key={idx} className={`menuItem padding-2 ${isDisabled ? 'menuItemIsDisabled' : ''} ${items?.json_tag === selectedMenu ? 'menuItemActive' : ''}`}
+                    onClick={() => !isDisabled && handleSelectMenu(items)}>
                     <p>{items?.title}<span>{" > "}</span></p>
                   </li>
                 })}
               </ul>
             </div>
             <div className="rightContainer">
-              <AdminComponents selectedMenu={selectedMenu} channelId = {channel_id} />
+              {selectedMenu === 'news_management' && <AdminComponents selectedMenu={selectedMenu} channelId={channel_id} />}
             </div>
           </div>
         </div>
