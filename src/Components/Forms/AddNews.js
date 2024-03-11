@@ -1,4 +1,4 @@
-import { EM_ADD_NEWS } from "../Config/EmLabel";
+// import { EM_ADD_NEWS } from "../Config/emLabel";
 import Button from "../Elements/Button";
 import {
   EM_CANCEL,
@@ -11,6 +11,7 @@ import DragDropFileUpload from "../Elements/DragDropFileUpload";
 import $ from "jquery";
 import { useEffect } from "react";
 import TextBox from "../Elements/InputControl";
+import { EM_ADD_NEWS } from "../Config/emLabel";
 
 const AddNews = props => {
   const { openAddNewsFrom, setOpenAddNewsFrom } = props;

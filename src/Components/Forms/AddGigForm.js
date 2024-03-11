@@ -13,7 +13,7 @@ import {
   EM_PLACE_YOURNAME,
   EM_SELECT_CATEGORY,
   EM_UPLOAD_IMAGES,
-} from "../Config/EmLabel";
+} from "../Config/emLabel.js";
 import Button from "../Elements/Button";
 import TextBox from "../Elements/InputControl";
 import {

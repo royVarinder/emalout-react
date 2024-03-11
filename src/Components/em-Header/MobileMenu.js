@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { MENU_ITEMS } from "../Config/Config";
 import { EM_CLOSE_ICON, EM_MOBILE_MENU_ICON } from "../Config/emButton";
-import { EM_MOBILE_MENU } from "../Config/EmLabel";
+import { EM_MOBILE_MENU } from "../Config/emLabel";
 
 import Button from "../Elements/Button";
 

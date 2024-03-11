@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EM_ADD_NEWS, EM_PLACE_AUTHOR_NAME, EM_PLACE_NEWS_DESCRIPTION, EM_PLACE_NEWS_TITLE, EM_UPDATE_NEWS } from "../Config/EmLabel";
+import { EM_ADD_NEWS, EM_PLACE_AUTHOR_NAME, EM_PLACE_NEWS_DESCRIPTION, EM_PLACE_NEWS_TITLE, EM_UPDATE_NEWS } from "../Config/emLabel";
 import { EM_ADD, EM_CANCEL, EM_CLOSE_ICON, EM_SUBMIT, EM_UPDATE, TYPE_BUTTON, TYPE_SUBMIT } from "../Config/emButton";
 import Button from "../Elements/Button";
 import DtService from "../TransferDataService";
