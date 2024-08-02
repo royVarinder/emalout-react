@@ -20,6 +20,7 @@ const EmNews = () => {
     try {
       emPostData(em_procedur_id?.em_get_all_news_customers, {}).then((res) => {
         if (res?.success === 1) {
+          console.log('res?.data :>> ', res?.data);
           setNewsList(res?.data)
           return
         }
@@ -41,16 +42,15 @@ const EmNews = () => {
   return (
     <div className="">
 
-      {newsList.length > 0 ? newsList.map((items, index) => {
-        console.log('items :>> ', items);
+      {newsList.length > 0 ? newsList?.map((items, index) => {
         const { images, title, description, createdAt, author_name } = items;
-        const _images = images.split(",");
-        return (
+        const _images = images?.split(",");
+        return (  
           <div key={index} className="parentNews em-flex em-shadow margin-1 marginBottom-2 em-border-radius em-flex-wrap">
             <div className="newsLeft">
               <div className="newsImagesNewsList">
                 {/* <Slider {...settings}> */}
-                  {_images.map((_items, idx) => {
+                  {_images?.map((_items, idx) => {
                     const fileExtention = _items.split(".")[1];
                     return fileExtention === 'mp4' ?
                       <video className="margin-1" controls>

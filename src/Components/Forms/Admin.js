@@ -83,6 +83,7 @@ const AdminLogin = props => {
           }
           emPostData(em_procedur_id?.emalout_validate_admin_user, jsonObject)
             .then((res) => {
+              console.log(res);
               if (res.success === 1) {
                 handleCloseForm();
                 setSessionData(EM_ADMIN_DETAILS, res?.data);
