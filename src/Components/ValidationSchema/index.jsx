@@ -8,7 +8,7 @@ export const AddBussFormSchema  = Yup.object({
     bussinessName:Yup?.string().required(EM_ERR_EXCLAMATION_MARK),
     bussinessContact:Yup?.string().required(EM_ERR_EXCLAMATION_MARK),
     emailAddress:Yup?.string().email(EM_ERR_VALID_EMAIL).required(EM_ERR_EXCLAMATION_MARK),
-    selectCategory:Yup?.string().required(EM_ERR_EXCLAMATION_MARK),
+    // selectCategory:Yup?.string().required(EM_ERR_EXCLAMATION_MARK),
     selectFeature:Yup?.array().required(EM_ERR_EXCLAMATION_MARK),
     selectWeekDays:Yup?.array().required(EM_ERR_EXCLAMATION_MARK),
     address:Yup?.string().required(EM_ERR_EXCLAMATION_MARK),

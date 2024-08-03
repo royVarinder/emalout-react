@@ -25,7 +25,7 @@ const TextBox = (props) => {
                 onChange={props?.onChange}
                 onBlur={props?.onBlur}
                 value={props?.value}
-                autoFocus
+                autoFocus={!!props?.autoFocus}
             />
         </div>
     )

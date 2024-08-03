@@ -555,6 +555,22 @@ span.newsImagesCloseIcon {
   position: relative;
 }
 
+.uploadingImageContainer {
+  position: relative;
+}
+
+.removeButton {
+  cursor: pointer;
+  padding: 4px;
+  background-color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+
+
+
 
 /* css of channel portal */
 

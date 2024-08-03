@@ -52,6 +52,7 @@ import { AddBussFormSchema } from "../ValidationSchema";
 import e from "cors";
 import axios from "axios";
 import { EM_ERR_EXCLAMATION_MARK } from "../Config/emMessages";
+import { toast } from "react-toastify";
 
 const initialValues = {
   name: "",
@@ -70,10 +71,9 @@ const initialValues = {
 const AddGigForm = props => {
   const { showAddGig, setShowGigForm } = props;
   const [allCategories, setAllCategories] = useState([]);
-  const [Shopimages, setShopimages] = useState([]);
-  const [serielizeData, setSerielizeData] = useState({});
+  const [shopImages, setShopImages] = useState([]);
   const [uploadedImages, setUploadedImages] = useState({});
-  const [sImages,setImages]=useState([]);
+  const [sImages, setImages] = useState([]);
 
   const formRef = useRef();
   const serialize = require("form-serialize");
@@ -81,99 +81,191 @@ const AddGigForm = props => {
   const formData = new FormData();
   let bussImages;
   const img = new Image();
-const [sImagesFiles,setImagesFiles]=useState([]);
-
-const testSubmit=(e)=>{
-   e.preventDefault();
-   e.stopPropagation();
-        console.log('test1111111 :>> ', 111111);
-        try {
-          // let updatedFormData = {
-          //   buss_address: formData.address,
-          //   bussinessContact: formData.bussinessContact,
-          //   bussinessName: formData.bussinessName,
-          //   buss_city: formData.city,
-          //   buss_district: formData.district,
-          //   emailAddress: formData.emailAddress,
-          //   yourName: formData.name,
-          //   selectCategory_id: formData.selectCategory,
-          //   selectFeature: formData.selectFeature.toString(),
-          //   selectWeekDays: formData.selectWeekDays.toString(),
-          //   yourContact: formData.yourContact,
-          //   bussImages: uploadedImages.toString(),
-          //   images:sImagesFiles.toString(),
-          // };
-
-          let updatedFormData = {
-              buss_address: formData.address || '',
-              bussinessContact: formData.bussinessContact || '',
-              bussinessName: formData.bussinessName || '',
-              buss_city: formData.city || '',
-              buss_district: formData.district || '',
-              emailAddress: formData.emailAddress || '',
-              yourName: formData.name || '',
-              selectCategory_id: formData.selectCategory || '',
-              selectFeature: (formData.selectFeature || []).toString(),
-              selectWeekDays: (formData.selectWeekDays || []).toString(),
-              yourContact: formData.yourContact || '',
-              bussImages: (uploadedImages || []).toString(),
-              images: (sImagesFiles || []).toString(),
-            };
+  const [sImagesFiles, setImagesFiles] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
 
-          console.log('formData :>> ', formData);
-          console.log('updatedFormData :>> ', updatedFormData);
-          // emNodePostData(
-          //   em_procedur_id?.em_node_buss_manage_api,
-          //   updatedFormData
-          // ).then(res => {
-          //   console.log("res :>> ", res);
-          //   if(res?.success){
-          //     handleCloseForm();
-          //   }
-          // });
-        } catch (error) {
-          console.error(error);
-        }
-        // setNowUploadImages(false);
+  const { values, errors, handleBlur, touched, handleChange, handleSubmit } = useFormik({
+    initialValues: initialValues,
+    validationSchema: AddBussFormSchema,
+    onSubmit: async (shopData) => {
+      shopImages.forEach((image) => {
+        //use to add state shopImages in formData
+        formData.append('shopImages', image);
+      })
+      const imageUrl = await emNodePostData(em_procedur_id?.em_post_images_api, formData);
+      const dataToSubmit = {
+        buss_images: !!imageUrl?.bussImageURL ? imageUrl?.bussImageURL.join("~") : "",
+        buss_contact: shopData?.bussinessContact || '',
+        buss_name: shopData?.bussinessName || '',
+        buss_city: shopData?.city || '',
+        buss_district: shopData?.district || '',
+        user_email: shopData?.emailAddress || '',
+        features: !!shopData?.selectFeature ? shopData?.selectFeature.join("~") : "",
+        weekdays: !!shopData?.selectWeekDays ? shopData?.selectWeekDays.join("~") : "",
+        user_contact: shopData?.yourContact || '',
+        buss_address: shopData?.address || '',
+        user_name: shopData?.name || '',
       }
-  const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: AddBussFormSchema,
-      onSubmit: testSubmit,
-    });
+      console.log('dataToSubmit :>> ', dataToSubmit);
+
+      emNodePostData(em_procedur_id?.em_create_business, dataToSubmit)
+        .then((res) => {
+          if (!!res?.success) {
+            setShowGigForm(false);
+            return
+          }
+          toast.error(res?.message)
+        })
+
+
+      // {
+      //   "user_name" : "user_name_23",
+      //     "user_contact" : "user_contact_23",
+      //       "user_email": "user_email_23",
+      //         "buss_name" : "buss_name_23",
+      //           "buss_contact" : "buss_contact_23",
+      //             "category_id" : "category_id_23",
+      //               "buss_address" : "ddd",
+      //                 "buss_city" : "buss_city_23",
+      //                   "buss_district" : "buss_district_23",
+      //                     "features" : "features_23",
+      //                       "weekdays" : "weekdays_23",
+      //                         "buss_images" : "buss_images_23"
+      // }
+
+
+
+
+    },
+  });
+
+  useEffect(() => {
+    console.log('values :>> ', values);
+  }, [values])
+
+  useEffect(() => {
+    console.log('errors :>> ', errors);
+  }, [errors])
+
+
+
+
   useEffect(() => {
     //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
-    getCallData(em_procedur_id?.em_node_buss_categories).then(res => {
+    emPostData(em_procedur_id?.em_node_buss_categories, {}).then(res => {
       setAllCategories(res?.data?.message);
     });
   }, []);
+
+
+
+
+
+
+  const testSubmit = (e) => {
+    try {
+      // let updatedFormData = {
+      //   buss_address: formData.address,
+      //   bussinessContact: formData.bussinessContact,
+      //   bussinessName: formData.bussinessName,
+      //   buss_city: formData.city,
+      //   buss_district: formData.district,
+      //   emailAddress: formData.emailAddress,
+      //   yourName: formData.name,
+      //   selectCategory_id: formData.selectCategory,
+      //   selectFeature: formData.selectFeature.toString(),
+      //   selectWeekDays: formData.selectWeekDays.toString(),
+      //   yourContact: formData.yourContact,
+      //   bussImages: uploadedImages.toString(),
+      //   images:sImagesFiles.toString(),
+      // };
+
+      // let updatedFormData = {
+      //   buss_address: formData.address || '',
+      //   bussinessContact: formData.bussinessContact || '',
+      //   bussinessName: formData.bussinessName || '',
+      //   buss_city: formData.city || '',
+      //   buss_district: formData.district || '',
+      //   emailAddress: formData.emailAddress || '',
+      //   yourName: formData.name || '',
+      //   selectCategory_id: formData.selectCategory || '',
+      //   selectFeature: (formData.selectFeature || []).toString(),
+      //   selectWeekDays: (formData.selectWeekDays || []).toString(),
+      //   yourContact: formData.yourContact || '',
+      //   bussImages: (uploadedImages || []).toString(),
+      //   images: (sImagesFiles || []).toString(),
+      // };
+
+
+      // console.log('formData :>> ', formData);
+      // console.log('updatedFormData :>> ', updatedFormData);
+      // emNodePostData(
+      //   em_procedur_id?.em_node_buss_manage_api,
+      //   updatedFormData
+      // ).then(res => {
+      //   console.log("res :>> ", res);
+      //   if(res?.success){
+      //     handleCloseForm();
+      //   }
+      // });
+    } catch (error) {
+      console.error(error);
+    }
+    // setNowUploadImages(false);
+  }
+
 
   const handleCloseForm = () => {
     setShowGigForm(false);
   };
 
+
+  const handleImageChange = (event) => {
+    const files = Array.from(event.target.files);
+    setShopImages([...shopImages, ...files])
+    const imagePromises = files.map(file => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    });
+
+    Promise.all(imagePromises).then(images => {
+      setSelectedImages(prevImages => [...prevImages, ...images]);
+    });
+  };
+
+  const handleImageRemove = (index) => {
+    setSelectedImages(prevImages => prevImages.filter((_, i) => i !== index));
+    setShopImages(prevImages => prevImages.filter((_, i) => i !== index));
+  };
+
+
   const handleSetImages = e => {
     try {
       let images = e.target.files;
       setImagesFiles(e.target.files);
-      console.log("images 1:>>",images)
+      console.log("images 1:>>", images)
       if (images.length > 5) {
       } else {
         Array.from(images).map((items, index) => {
           imagesArrayforDb.push(items.name);
         });
-        setShopimages(images);
+        // setShopimages(images);
         const files = Array.from(images);
         files.forEach(element => {
 
-   const url = URL.createObjectURL(element);  
-   console.log('url :>> ', url);
-   setImages((prev)=>[...prev,url]);
-   console.log('formData :>> ', formData);
+          const url = URL.createObjectURL(element);
+          console.log('url :>> ', url);
+          console.log('formData :>> ', formData);
           // formData.append("profile", element, element?.name);
         });
+        // setImages((prev) => [...prev, url]);
         // emNodePostData(em_procedur_id?.em_post_images_api, formData).then(
         //   res => {
         //     if (res?.success) {
@@ -204,14 +296,14 @@ const testSubmit=(e)=>{
               }}
             />
           </div>
-          <form id="addGigForm" onSubmit={(e)=>testSubmit(e)}>
+          <form id="addGigForm" onSubmit={handleSubmit}>
             <div className="add_body em-border-bottom paddingBottom-2">
               <div className="addDetailsSection">
                 <div className="allInputs paddingTop-2 em-flex ">
                   <div className="inputClass padding-1 marginTop-1">
                     <TextBox
                       type={EM_TYPE_TEXT}
-                      id=""
+
                       className="form-control"
                       name="name"
                       placeholder={EM_PLACE_YOURNAME}
@@ -231,7 +323,7 @@ const testSubmit=(e)=>{
                     <TextBox
                       type={EM_TYPE_NUMBER}
                       name="yourContact"
-                      id=""
+
                       inputClass="inputClass padding-1 marginTop-1"
                       className="form-control "
                       placeholder={EM_PLACE_YOURCONTACT}
@@ -255,7 +347,7 @@ const testSubmit=(e)=>{
                     <TextBox
                       type={EM_TYPE_TEXT}
                       inputClass="inputClass padding-1 marginTop-1"
-                      id=""
+
                       name="bussinessName"
                       className="form-control"
                       placeholder={EM_PLACE_BUSNAME}
@@ -277,7 +369,7 @@ const testSubmit=(e)=>{
                     <TextBox
                       type={EM_TYPE_NUMBER}
                       name="bussinessContact"
-                      id=""
+
                       inputClass="inputClass padding-1 marginTop-1"
                       className="form-control "
                       placeholder={EM_PLACE_BUSCONTACT}
@@ -300,7 +392,7 @@ const testSubmit=(e)=>{
                   <div className="inputClass padding-1 marginTop-1">
                     <TextBox
                       type={EM_TYPE_EMAIL}
-                      id=""
+
                       inputClass="inputClass padding-1 marginTop-1"
                       name="emailAddress"
                       className="form-control "
@@ -321,7 +413,7 @@ const testSubmit=(e)=>{
                   </div>
                 </div>
 
-                {/* <div className="allInputs em-text-left marginTop-3 margin-1">
+                <div className="allInputs em-text-left marginTop-3 margin-1">
                   <div className="Heading">
                     <h5>{EM_SELECT_CATEGORY}</h5>
                   </div>
@@ -345,31 +437,37 @@ const testSubmit=(e)=>{
                       </label>
                     )}
                   </div>
-                </div> */}
+                </div>
                 <div className="uploadShowImages add_body marginTop-3">
                   <div className="Heading em-text-left">
                     <h5>{EM_UPLOAD_IMAGES}</h5>
                   </div>
                   <div className="optionsValues">
                     <DragDropFileUpload
-                      multiple='true'
-                      onChange={e => {
-                        handleSetImages(e);
+                      multiple={true}
+                      onChange={(e) => {
+                        handleImageChange(e);
                       }}
                       accept="image/png, image/gif, image/jpeg"
                       name="bussImages"
                     />
                   </div>
                   <div className="showImages paddingTopBottom-2 em-flex em-flex-wrap">
-                    {Array.from(Shopimages).map(items => {
-                        return (
+                    {selectedImages.map((items, index) => {
+                      return (
+                        <div className="uploadingImageContainer">
                           <img
                             className="padding-1"
                             // width={100}
                             height={100}
-                            src={items ? URL.createObjectURL(items) : null}
+                            src={items}
                           />
-                        );
+                          <span onClick={() => {
+                            handleImageRemove(index)
+                          }} className="removeButton" >X</span>
+                        </div>
+
+                      );
                     })}
                   </div>
                 </div>
@@ -432,7 +530,7 @@ const testSubmit=(e)=>{
                   <div className="inputClass padding-1 marginTop-1">
                     <TextBox
                       type={EM_TYPE_TEXTAREA}
-                      id=""
+
                       name="address"
                       inputClass="inputClass marginTop-1"
                       className="form-control "
@@ -456,7 +554,7 @@ const testSubmit=(e)=>{
                     <div className="inputClass padding-1 marginTop-1">
                       <TextBox
                         type={EM_TYPE_TEXT}
-                        id=""
+
                         inputClass="inputClass padding-1 marginTop-1"
                         name="city"
                         className="form-control "
@@ -477,7 +575,7 @@ const testSubmit=(e)=>{
                     <div className="inputClass padding-1 marginTop-1">
                       <TextBox
                         inputClass="inputClass padding-1 marginTop-1"
-                        id=""
+
                         type={EM_TYPE_TEXT}
                         name="district"
                         className="form-control "
@@ -504,7 +602,7 @@ const testSubmit=(e)=>{
             <div className="add_footer em-text-right paddingTop-2">
               <Button
                 title={EM_CANCEL}
-                id=""
+
                 type={TYPE_BUTTON}
                 className="em-button-cancel marginRight-2"
                 onClick={() => {
@@ -513,10 +611,10 @@ const testSubmit=(e)=>{
               />
               <Button
                 title={EM_SUBMIT}
-                id=""
+
                 type={TYPE_SUBMIT}
                 className="em-button-default marginRight-2"
-                onClick={()=>{}}
+                onClick={() => { }}
               />
             </div>
           </form>

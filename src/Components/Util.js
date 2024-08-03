@@ -61,10 +61,10 @@ export const removeFromSession = (key) => {
 
 // ///NODE JS API FUNCTION
 
-export const emNodePostData = (processId, postData) => {
+export const emNodePostData = async (processId, postData) => {
     try {
         let PROCESS_ID_URL = EM_NODE_API_URL + processId;
-        return axios.post(PROCESS_ID_URL, postData).then(res => res?.data);
+        return await axios.post(PROCESS_ID_URL, postData).then(res => res?.data);
     } catch (error) {
         console.log('emPostData :>> ', error);
         return {};

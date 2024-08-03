@@ -33,5 +33,6 @@ export const em_procedur_id = {
     em_get_channel_news: 'api/api_adminUsers/getNewsList',
     em_get_all_news_customers: "api/api_users/getNewsListForUsers",
     em_get_channel_news_details: 'api/api_adminUsers/getNewsDetails',
-    em_get_channel_menu_list: 'api/api_adminUsers/getChannelMenuList'
+    em_get_channel_menu_list: 'api/api_adminUsers/getChannelMenuList',
+    em_create_business : "api/api_bussness/createUpdateBusiness",
 }
