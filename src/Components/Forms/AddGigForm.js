@@ -37,6 +37,7 @@ import {
   EM_DEFAULT_CITY,
   EM_DEFAULT_DIST,
   EM_NODE_API_URL,
+  processIdURL,
 } from "../Config/emSiteConfig";
 import CheckRadio from "../Elements/Checkbox";
 import DragDropFileUpload from "../Elements/DragDropFileUpload";
@@ -69,50 +70,78 @@ const initialValues = {
 const AddGigForm = props => {
   const { showAddGig, setShowGigForm } = props;
   const [allCategories, setAllCategories] = useState([]);
-  const [Shopimages, setImages] = useState([]);
+  const [Shopimages, setShopimages] = useState([]);
   const [serielizeData, setSerielizeData] = useState({});
   const [uploadedImages, setUploadedImages] = useState({});
+  const [sImages,setImages]=useState([]);
+
   const formRef = useRef();
   const serialize = require("form-serialize");
   const imagesArrayforDb = [];
   const formData = new FormData();
   let bussImages;
   const img = new Image();
+const [sImagesFiles,setImagesFiles]=useState([]);
 
-  const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: initialValues,
-      validationSchema: AddBussFormSchema,
-      onSubmit: formData => {
+const testSubmit=(e)=>{
+   e.preventDefault();
+   e.stopPropagation();
+        console.log('test1111111 :>> ', 111111);
         try {
+          // let updatedFormData = {
+          //   buss_address: formData.address,
+          //   bussinessContact: formData.bussinessContact,
+          //   bussinessName: formData.bussinessName,
+          //   buss_city: formData.city,
+          //   buss_district: formData.district,
+          //   emailAddress: formData.emailAddress,
+          //   yourName: formData.name,
+          //   selectCategory_id: formData.selectCategory,
+          //   selectFeature: formData.selectFeature.toString(),
+          //   selectWeekDays: formData.selectWeekDays.toString(),
+          //   yourContact: formData.yourContact,
+          //   bussImages: uploadedImages.toString(),
+          //   images:sImagesFiles.toString(),
+          // };
+
           let updatedFormData = {
-            buss_address: formData.address,
-            bussinessContact: formData.bussinessContact,
-            bussinessName: formData.bussinessName,
-            buss_city: formData.city,
-            buss_district: formData.district,
-            emailAddress: formData.emailAddress,
-            yourName: formData.name,
-            selectCategory_id: formData.selectCategory,
-            selectFeature: formData.selectFeature.toString(),
-            selectWeekDays: formData.selectWeekDays.toString(),
-            yourContact: formData.yourContact,
-            bussImages: uploadedImages.toString(),
-          };
-          emNodePostData(
-            em_procedur_id?.em_node_buss_manage_api,
-            updatedFormData
-          ).then(res => {
-            console.log("res :>> ", res);
-            if(res?.success){
-              handleCloseForm();
-            }
-          });
+              buss_address: formData.address || '',
+              bussinessContact: formData.bussinessContact || '',
+              bussinessName: formData.bussinessName || '',
+              buss_city: formData.city || '',
+              buss_district: formData.district || '',
+              emailAddress: formData.emailAddress || '',
+              yourName: formData.name || '',
+              selectCategory_id: formData.selectCategory || '',
+              selectFeature: (formData.selectFeature || []).toString(),
+              selectWeekDays: (formData.selectWeekDays || []).toString(),
+              yourContact: formData.yourContact || '',
+              bussImages: (uploadedImages || []).toString(),
+              images: (sImagesFiles || []).toString(),
+            };
+
+
+          console.log('formData :>> ', formData);
+          console.log('updatedFormData :>> ', updatedFormData);
+          // emNodePostData(
+          //   em_procedur_id?.em_node_buss_manage_api,
+          //   updatedFormData
+          // ).then(res => {
+          //   console.log("res :>> ", res);
+          //   if(res?.success){
+          //     handleCloseForm();
+          //   }
+          // });
         } catch (error) {
           console.error(error);
         }
         // setNowUploadImages(false);
-      },
+      }
+  const { values, errors, handleBlur, touched, handleChange, handleSubmit } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: AddBussFormSchema,
+      onSubmit: testSubmit,
     });
   useEffect(() => {
     //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
@@ -128,25 +157,32 @@ const AddGigForm = props => {
   const handleSetImages = e => {
     try {
       let images = e.target.files;
+      setImagesFiles(e.target.files);
+      console.log("images 1:>>",images)
       if (images.length > 5) {
       } else {
         Array.from(images).map((items, index) => {
           imagesArrayforDb.push(items.name);
         });
-        setImages(images);
+        setShopimages(images);
         const files = Array.from(images);
         files.forEach(element => {
-          formData.append("profile", element, element?.name);
+
+   const url = URL.createObjectURL(element);  
+   console.log('url :>> ', url);
+   setImages((prev)=>[...prev,url]);
+   console.log('formData :>> ', formData);
+          // formData.append("profile", element, element?.name);
         });
-        emNodePostData(em_procedur_id?.em_post_images_api, formData).then(
-          res => {
-            if (res?.success) {
-                  setUploadedImages(res?.bussImageURL);
-            } else {
-              setUploadedImages({});
-            }
-          }
-        );
+        // emNodePostData(em_procedur_id?.em_post_images_api, formData).then(
+        //   res => {
+        //     if (res?.success) {
+        //           setUploadedImages(res?.bussImageURL);
+        //     } else {
+        //       setUploadedImages({});
+        //     }
+        //   }
+        // );
       }
     } catch (err) {
       console.error(err);
@@ -168,7 +204,7 @@ const AddGigForm = props => {
               }}
             />
           </div>
-          <form id="addGigForm" onSubmit={handleSubmit}>
+          <form id="addGigForm" onSubmit={(e)=>testSubmit(e)}>
             <div className="add_body em-border-bottom paddingBottom-2">
               <div className="addDetailsSection">
                 <div className="allInputs paddingTop-2 em-flex ">
@@ -285,7 +321,7 @@ const AddGigForm = props => {
                   </div>
                 </div>
 
-                <div className="allInputs em-text-left marginTop-3 margin-1">
+                {/* <div className="allInputs em-text-left marginTop-3 margin-1">
                   <div className="Heading">
                     <h5>{EM_SELECT_CATEGORY}</h5>
                   </div>
@@ -309,14 +345,14 @@ const AddGigForm = props => {
                       </label>
                     )}
                   </div>
-                </div>
+                </div> */}
                 <div className="uploadShowImages add_body marginTop-3">
                   <div className="Heading em-text-left">
                     <h5>{EM_UPLOAD_IMAGES}</h5>
                   </div>
                   <div className="optionsValues">
                     <DragDropFileUpload
-                      multiple
+                      multiple='true'
                       onChange={e => {
                         handleSetImages(e);
                       }}
@@ -480,7 +516,7 @@ const AddGigForm = props => {
                 id=""
                 type={TYPE_SUBMIT}
                 className="em-button-default marginRight-2"
-                onClick={() => {}}
+                onClick={()=>{}}
               />
             </div>
           </form>

@@ -2,7 +2,7 @@ import React from "react";
 
 
 const DragDropFileUpload =(props)=>{
-
+const {fileURL}=props;
         return (
             <div className={props?.inputClass}>
                 <div className="DragAndDrop">
