@@ -11,6 +11,7 @@ import AddGigForm from "../Forms/AddGigForm";
 import AdminLogin from "../Forms/Admin";
 import { getSessionData, removeFromSession } from "../Util";
 import MobileMenu from "./MobileMenu";
+import News from "../Forms/NewsForm";
 
 const Header = () => {
   const [showAddGig, setShowGigForm] = useState(false);
@@ -136,7 +137,7 @@ useEffect(()=>{
       </div>
       
     </div>
-    {showAddGig &&<AddGigForm 
+    {/* {showAddGig &&<AddGigForm 
     showAddGig = {showAddGig}
     setShowGigForm = {setShowGigForm}/>} 
     
@@ -148,7 +149,10 @@ useEffect(()=>{
     {showAdminPopup && <AdminLogin 
     showAdminPopup  ={showAdminPopup}
     setShowAdminPopup ={setShowAdminPopup}
-    />}
+    />} */}
+    {
+      showAddGig && <News/>
+    }
     </>
   );
 };

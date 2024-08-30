@@ -89,6 +89,7 @@ const AddGigForm = props => {
     initialValues: initialValues,
     validationSchema: AddBussFormSchema,
     onSubmit: async (shopData) => {
+      console.log("shopData :>>",shopData);
       shopImages.forEach((image) => {
         //use to add state shopImages in formData
         formData.append('shopImages', image);
@@ -106,6 +107,7 @@ const AddGigForm = props => {
         user_contact: shopData?.yourContact || '',
         buss_address: shopData?.address || '',
         user_name: shopData?.name || '',
+        category: shopData?.selectCategory || '',
       }
       console.log('dataToSubmit :>> ', dataToSubmit);
 
@@ -117,26 +119,6 @@ const AddGigForm = props => {
           }
           toast.error(res?.message)
         })
-
-
-      // {
-      //   "user_name" : "user_name_23",
-      //     "user_contact" : "user_contact_23",
-      //       "user_email": "user_email_23",
-      //         "buss_name" : "buss_name_23",
-      //           "buss_contact" : "buss_contact_23",
-      //             "category_id" : "category_id_23",
-      //               "buss_address" : "ddd",
-      //                 "buss_city" : "buss_city_23",
-      //                   "buss_district" : "buss_district_23",
-      //                     "features" : "features_23",
-      //                       "weekdays" : "weekdays_23",
-      //                         "buss_images" : "buss_images_23"
-      // }
-
-
-
-
     },
   });
 
@@ -154,7 +136,15 @@ const AddGigForm = props => {
   useEffect(() => {
     //CALLING CATEGORIES TO UPDATE IN DROP DOWN ============================>
     emPostData(em_procedur_id?.em_node_buss_categories, {}).then(res => {
-      setAllCategories(res?.data?.message);
+      if(res?.success===1){
+        if(!!res?.data){
+          const newArray = res?.data.map(item => ({
+            id: item?.id,
+            value: item?.category_name
+            }));
+          setAllCategories(newArray);
+        }
+      }
     });
   }, []);
 
