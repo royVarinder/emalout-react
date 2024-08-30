@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   FormControl,
   FormLabel,
@@ -9,167 +9,195 @@ import {
   Heading,
   FormErrorMessage,
   Textarea,
-  ChakraProvider
+  ChakraProvider,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  useDisclosure
+
   // ContextProvider 
 } from "@chakra-ui/react";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, useFormik } from "formik";
 import * as Yup from "yup";
+import { newsFormValidation } from "../ValidationSchema";
 
-const validationSchema = Yup.object({
-  title: Yup.string().required("Title is required"),
-  description: Yup.string().required("Description is required"),
-  author_name: Yup.string().required("Author name is required"),
-  images: Yup.mixed().required("Image is required"),
-  videos: Yup.mixed(),
-  channel_id: Yup.number().required("Channel ID is required"),
-  author_id: Yup.number().required("Author ID is required"),
-  city_id: Yup.number().required("City ID is required"),
-});
+const News = ({ activePop, setActive }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { values, errors, handleChange, handleBlur, resetForm, setValues, touched, setFieldValue, handleSubmit } = useFormik({
+    initialValues: {},
+    validationSchema: newsFormValidation , //no validation created yet.
+    onSubmit: values => {
+      console.log('onSubmit :>> ', values);
+      //call api to save data in database
+    }
+  })
 
-const News = () => {
+  useEffect(() => {
+    //to check values in form
+    console.log('values :>> ', values);
+  }, [values])
+
+
+  useEffect(() => {
+
+    if (activePop) {
+      onOpen();
+      setValues({
+        title: "",
+        description: "",
+        author_name: "",
+        images: [],
+        videos: {},
+        channel_id: "",
+      })
+      return;
+    }
+    onClose();
+    setActive(false)
+    setValues({});
+  }, [activePop])
+
+
   return (
-    <ChakraProvider>
-      {/* <ContextProvider> */}
-        <Box p={4} maxW="lg" mx="auto" mt={10}>
-      <Heading mb={6} textAlign="center">
-        Form with Multiple Fields
-      </Heading>
-      <Formik
-        initialValues={{
-          title: "",
-          description: "",
-          author_name: "",
-          images: null,
-          videos: null,
-          channel_id: "",
-          author_id: "",
-          city_id: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={(values, actions) => {
-          setTimeout(() => {
-            console.log("Form data: ", values);
-            actions.setSubmitting(false);
-          }, 1000);
-        }}
-      >
-        {(formik) => (
-          <Form>
+    <Drawer
+      isOpen={isOpen}
+      placement='right'
+      size={"lg"}
+      onClose={() => {
+        onClose();
+        setActive(false)
+
+      }}
+    >
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>
+          Add News
+        </DrawerHeader>
+        <DrawerBody>
+          {/* <ContextProvider> */}
+
+          <form>
             <VStack spacing={4}>
-              <FormControl isInvalid={formik.errors.title && formik.touched.title}>
+              <FormControl isRequired isInvalid={!!errors.title && !!touched.title}>
                 <FormLabel htmlFor="title">Title</FormLabel>
-                <Field
-                  as={Input}
+                <Input
                   id="title"
                   name="title"
                   type="text"
+                  value={values?.title}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                   placeholder="Enter title"
                 />
-                <FormErrorMessage>{formik.errors.title}</FormErrorMessage>
+                {!!errors.title && !!touched.title && <FormErrorMessage>{errors?.title}</FormErrorMessage>}
               </FormControl>
 
-              <FormControl isInvalid={formik.errors.description && formik.touched.description}>
+              <FormControl isRequired isInvalid={!!errors.description && !!touched?.description}>
                 <FormLabel htmlFor="description">Description</FormLabel>
-                <Field
-                  as={Textarea}
+                <Input
                   id="description"
                   name="description"
                   placeholder="Enter description"
+                  value={values?.description}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-                <FormErrorMessage>{formik.errors.description}</FormErrorMessage>
+                {!!errors.description && !!touched?.description && <FormErrorMessage>{errors?.description}</FormErrorMessage>}
               </FormControl>
 
-              <FormControl isInvalid={formik.errors.author_name && formik.touched.author_name}>
+              <FormControl isRequired isInvalid={!!errors?.author_name && !!touched?.author_name}>
                 <FormLabel htmlFor="author_name">Author Name</FormLabel>
-                <Field
-                  as={Input}
+                <Input
                   id="author_name"
                   name="author_name"
                   type="text"
                   placeholder="Enter author name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-                <FormErrorMessage>{formik.errors.author_name}</FormErrorMessage>
+                {!!errors?.author_name && !!touched?.author_name && <FormErrorMessage>{errors.author_name}</FormErrorMessage>}
               </FormControl>
 
-              <FormControl isInvalid={formik.errors.images && formik.touched.images}>
+              <FormControl isRequired isInvalid={!!errors.images && !!touched.images}>
                 <FormLabel htmlFor="images">Images</FormLabel>
                 <Input
                   id="images"
                   name="images"
                   type="file"
+                  multiple
                   accept="image/*"
+                  onBlur={handleBlur}
                   onChange={(event) => {
-                    formik.setFieldValue("images", event.currentTarget.files[0]);
+                    setFieldValue("images", event.currentTarget.files);
                   }}
                 />
-                <FormErrorMessage>{formik.errors.images}</FormErrorMessage>
+                {!!errors.images && !!touched.images && <FormErrorMessage>{errors.images}</FormErrorMessage>}
               </FormControl>
 
-              <FormControl isInvalid={formik.errors.videos && formik.touched.videos}>
+              <FormControl isRequired isInvalid={!!errors.videos && !!touched.videos}>
                 <FormLabel htmlFor="videos">Videos</FormLabel>
                 <Input
                   id="videos"
                   name="videos"
                   type="file"
                   accept="video/*"
+                  onBlur={handleBlur}
                   onChange={(event) => {
-                    formik.setFieldValue("videos", event.currentTarget.files[0]);
+
+                    setFieldValue("videos", event.currentTarget.files[0]);
                   }}
                 />
-                <FormErrorMessage>{formik.errors.videos}</FormErrorMessage>
+                {!!errors.videos && !!touched.videos && <FormErrorMessage>{errors.videos}</FormErrorMessage>}
               </FormControl>
 
-              <FormControl isInvalid={formik.errors.channel_id && formik.touched.channel_id}>
-                <FormLabel htmlFor="channel_id">Channel ID</FormLabel>
-                <Field
-                  as={Input}
-                  id="channel_id"
-                  name="channel_id"
-                  type="number"
-                  placeholder="Enter channel ID"
+              <FormControl isRequired isInvalid={!!errors.tags && !!touched.tags}>
+                <FormLabel htmlFor="tags">Tags</FormLabel>
+                <Input
+                  id="tags"
+                  name="tags"
+                  type="text"
+                  // accept="video/*"
+                  onBlur={handleBlur}
+                  placeholder="Example: tag1,tag2,tag3,tag4"
+                  onChange={handleChange}
                 />
-                <FormErrorMessage>{formik.errors.channel_id}</FormErrorMessage>
+                {!!errors.videos && !!touched.videos && <FormErrorMessage>{errors.videos}</FormErrorMessage>}
               </FormControl>
-
-              <FormControl isInvalid={formik.errors.author_id && formik.touched.author_id}>
-                <FormLabel htmlFor="author_id">Author ID</FormLabel>
-                <Field
-                  as={Input}
-                  id="author_id"
-                  name="author_id"
-                  type="number"
-                  placeholder="Enter author ID"
-                />
-                <FormErrorMessage>{formik.errors.author_id}</FormErrorMessage>
-              </FormControl>
-
-              <FormControl isInvalid={formik.errors.city_id && formik.touched.city_id}>
-                <FormLabel htmlFor="city_id">City ID</FormLabel>
-                <Field
-                  as={Input}
-                  id="city_id"
-                  name="city_id"
-                  type="number"
-                  placeholder="Enter city ID"
-                />
-                <FormErrorMessage>{formik.errors.city_id}</FormErrorMessage>
-              </FormControl>
-
-              <Button
-                type="submit"
-                colorScheme="teal"
-                isLoading={formik.isSubmitting}
-                width="full"
-              >
-                Submit
-              </Button>
             </VStack>
-          </Form>
-        )}
-      </Formik>
-         </Box>
+          </form>
+
+
+        </DrawerBody>
+        <DrawerFooter gap={2}>
+          <Button
+            type="button"
+            colorScheme="teal"
+            // isLoading
+            width="full"
+            onClick={() => setActive(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            colorScheme="teal"
+            // isLoading
+            width="full"
+            onClick={handleSubmit}
+          >
+            Submit
+          </Button>
+        </DrawerFooter>
+      </DrawerContent>
+
       {/* </ContextProvider> */}
-  </ChakraProvider>
+    </Drawer>
   );
 };
 

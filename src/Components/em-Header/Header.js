@@ -19,22 +19,22 @@ const Header = () => {
   const [menuItems, setMenuItems] = useState(MENU_ITEMS);
   const [showAdminPopup, setShowAdminPopup] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [sessionFlag , setSessionFlag] = useState(false);
+  const [sessionFlag, setSessionFlag] = useState(false);
   const navigate = useNavigate();
-useEffect(()=>{
-  try {
-    if(getSessionData(EM_ADMIN_DETAILS)) {
-      setIsLoggedIn(true);
-    }else {
-      setIsLoggedIn(false);
+  useEffect(() => {
+    try {
+      if (getSessionData(EM_ADMIN_DETAILS)) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
-  }
-},[getSessionData(EM_ADMIN_DETAILS), sessionFlag]);
+  }, [getSessionData(EM_ADMIN_DETAILS), sessionFlag]);
 
 
-  const handleShowAddGig =()=>{
+  const handleShowAddGig = () => {
     try {
       setShowGigForm(!showAddGig);
     } catch (error) {
@@ -42,25 +42,25 @@ useEffect(()=>{
     }
   }
 
-  const handleOpenMobileMenu=()=>{
+  const handleOpenMobileMenu = () => {
     try {
-    setMobileMenu(!mobileMenu);
+      setMobileMenu(!mobileMenu);
     } catch (error) {
       console.error(error);
-      
+
     }
   }
 
-  const handleOpenAdminPopup=()=>{
+  const handleOpenAdminPopup = () => {
     try {
       setShowAdminPopup(!showAdminPopup);
     } catch (error) {
       console.error(error);
-      
+
     }
   }
 
-  const handleAdminLogout=()=>{
+  const handleAdminLogout = () => {
     try {
       removeFromSession(EM_ADMIN_DETAILS);
       removeFromSession(EM_CHANNEL_DETAILS);
@@ -68,76 +68,76 @@ useEffect(()=>{
       navigate("/")
     } catch (error) {
       console.error(error);
-      
+
     }
   }
 
 
   return (
     <>
-    <div className="em_header  em-shadow-bottom em-flex em-horizontal-align-between em-vertical-align-middle em-header-default">
-      <div className="siteLogo em-horizontal-align-left em-text-left">
-        <img src={Logo2} alt="" />
-      </div>
-    <div className="siteMenuDesktop">
-        <div className="menuItems">
-          <ul className="menuListed em-flex">
-            {menuItems.map((items) => {
-              return (
-                <Link to = {items.url} key={items.menu_id}><li
-                  key={items.menu_id}
-                  className="menuListing padding-2 paddingLeftRight-4 marginLeftRight-2 em-cursorPointer em-border-radius em-shadow">
-                  {items.menuName}
-                </li>
-                </Link>
-              );
-            })}
-          </ul>
+      <div className="em_header  em-shadow-bottom em-flex em-horizontal-align-between em-vertical-align-middle em-header-default">
+        <div className="siteLogo em-horizontal-align-left em-text-left">
+          <img src={Logo2} alt="" />
         </div>
-      </div>
-      <div className="siteActions em-flex">
-        {FLAG_SEARCH_BTN === "Y" ?       
-          <Button
-          title={EM_SEARCH}
-          id="em_search_button"
-          className="em-button-default marginRight-2"
-        /> : ""}
+        <div className="siteMenuDesktop">
+          <div className="menuItems">
+            <ul className="menuListed em-flex">
+              {menuItems.map((items) => {
+                return (
+                  <Link to={items.url} key={items.menu_id}><li
+                    key={items.menu_id}
+                    className="menuListing padding-2 paddingLeftRight-4 marginLeftRight-2 em-cursorPointer em-border-radius em-shadow">
+                    {items.menuName}
+                  </li>
+                  </Link>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+        <div className="siteActions em-flex">
+          {FLAG_SEARCH_BTN === "Y" ?
+            <Button
+              title={EM_SEARCH}
+              id="em_search_button"
+              className="em-button-default marginRight-2"
+            /> : ""}
 
-        {FLAG_ADD_BTN ==="Y" ?  
-        <Button
-          title={EM_ADD}
-          id="em_add_bussiness"
-          className="em-button-default marginRight-2"
-          onClick={()=>{
-            handleShowAddGig();
-          }}
-        /> : ""}
-       {FLAG_ADMIN_BTN === "Y" ?   
-        <Button
-          title={isLoggedIn === true ? EM_LOGOUT : EM_ADMIN}
-          id="em_admin_login"
-          className="em-button-default marginRight-2"
-          onClick={()=>{
-            if(isLoggedIn === true){
-              handleAdminLogout();
-            }else {
-              handleOpenAdminPopup();
-            }
-          }}
-        /> : ""}
-      
-        <Button
-          title={EM_MOBILE_MENU_ICON}
-          id="em_mobile_menu"
-          className="em-button-default marginRight-2 em_mobile_menu_button"
-          onClick={()=>{
-            handleOpenMobileMenu();
-          }}
-        />
+          {FLAG_ADD_BTN === "Y" ?
+            <Button
+              title={EM_ADD}
+              id="em_add_bussiness"
+              className="em-button-default marginRight-2"
+              onClick={() => {
+                handleShowAddGig();
+              }}
+            /> : ""}
+          {FLAG_ADMIN_BTN === "Y" ?
+            <Button
+              title={isLoggedIn === true ? EM_LOGOUT : EM_ADMIN}
+              id="em_admin_login"
+              className="em-button-default marginRight-2"
+              onClick={() => {
+                if (isLoggedIn === true) {
+                  handleAdminLogout();
+                } else {
+                  handleOpenAdminPopup();
+                }
+              }}
+            /> : ""}
+
+          <Button
+            title={EM_MOBILE_MENU_ICON}
+            id="em_mobile_menu"
+            className="em-button-default marginRight-2 em_mobile_menu_button"
+            onClick={() => {
+              handleOpenMobileMenu();
+            }}
+          />
+        </div>
+
       </div>
-      
-    </div>
-    {/* {showAddGig &&<AddGigForm 
+      {/* {showAddGig &&<AddGigForm 
     showAddGig = {showAddGig}
     setShowGigForm = {setShowGigForm}/>} 
     
@@ -150,9 +150,9 @@ useEffect(()=>{
     showAdminPopup  ={showAdminPopup}
     setShowAdminPopup ={setShowAdminPopup}
     />} */}
-    {
-      showAddGig && <News/>
-    }
+      {
+        <News activePop={showAddGig} setActive={setShowGigForm} />
+      }
     </>
   );
 };
