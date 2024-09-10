@@ -137,7 +137,7 @@ const Header = () => {
         </div>
 
       </div>
-      {/* {showAddGig &&<AddGigForm 
+      {showAddGig &&<AddGigForm 
     showAddGig = {showAddGig}
     setShowGigForm = {setShowGigForm}/>} 
     
@@ -149,10 +149,10 @@ const Header = () => {
     {showAdminPopup && <AdminLogin 
     showAdminPopup  ={showAdminPopup}
     setShowAdminPopup ={setShowAdminPopup}
-    />} */}
-      {
+    />} 
+      {/* {
         <News activePop={showAddGig} setActive={setShowGigForm} />
-      }
+      } */}
     </>
   );
 };

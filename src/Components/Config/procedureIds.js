@@ -25,7 +25,7 @@ export const em_procedur_id = {
     //NODE POST,GET,UPDATE
     em_node_or_post_or_get_api: "/",
     em_node_get_or_delete_by_id: "/:",
-    em_node_buss_manage_api: "api/api_bussness",    
+    em_node_buss_manage_api: "api/api_bussness",
     // em_node_buss_categories: "api/api_bussCategories",
     em_node_buss_categories: "api/api_users/fetchCategory",
 
@@ -35,5 +35,6 @@ export const em_procedur_id = {
     em_get_all_news_customers: "api/api_users/getNewsListForUsers",
     em_get_channel_news_details: 'api/api_adminUsers/getNewsDetails',
     em_get_channel_menu_list: 'api/api_adminUsers/getChannelMenuList',
-    em_create_business : "api/api_bussness/createUpdateBusiness",
+    em_create_business: "api/api_bussness/createUpdateBusiness",
+    add_news: "api/api_news/addNews"
 }

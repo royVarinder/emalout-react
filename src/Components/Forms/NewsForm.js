@@ -24,22 +24,53 @@ import {
 import { Formik, Field, Form, useFormik } from "formik";
 import * as Yup from "yup";
 import { newsFormValidation } from "../ValidationSchema";
+import { em_procedur_id } from "../Config/procedureIds";
+import { emNodePostData } from "../Util";
+import { toast } from "react-toastify";
 
 const News = ({ activePop, setActive }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { values, errors, handleChange, handleBlur, resetForm, setValues, touched, setFieldValue, handleSubmit } = useFormik({
-    initialValues: {},
-    validationSchema: newsFormValidation , //no validation created yet.
-    onSubmit: values => {
-      console.log('onSubmit :>> ', values);
-      //call api to save data in database
+    initialValues: {
+      author_name: "",
+      channel_id: "2"
+    },
+    validationSchema: newsFormValidation, //no validation created yet.
+    onSubmit: async (values) => {
+      try {
+        const formData = new FormData();
+        //map this object with key & values
+        Array.from(values?.images)
+          .forEach(image => {
+            formData.append("files", image)
+          });
+        formData.append("files", values.videos)
+        delete values.images; delete values.videos
+        const formDataArray = Object.entries(values);
+        formDataArray.forEach((items) => {
+          //add all items to form data using append
+          formData.append(items[0], items[1]);
+        })
+        //call api to save data in database
+        const response = await emNodePostData(em_procedur_id?.add_news, formData)
+        const { success } = response;
+        if (!!success) {
+          onClose();
+          resetForm();
+          toast.success("News posted successfully")
+          return;
+
+        }
+        alert("Failed to add news")
+      } catch (error) {
+        console.error(error);
+        alert("Failed to add news")
+
+      }
+
     }
   })
 
-  useEffect(() => {
-    //to check values in form
-    console.log('values :>> ', values);
-  }, [values])
 
 
   useEffect(() => {
@@ -52,7 +83,7 @@ const News = ({ activePop, setActive }) => {
         author_name: "",
         images: [],
         videos: {},
-        channel_id: "",
+        channel_id: "3",
       })
       return;
     }
@@ -100,7 +131,7 @@ const News = ({ activePop, setActive }) => {
 
               <FormControl isRequired isInvalid={!!errors.description && !!touched?.description}>
                 <FormLabel htmlFor="description">Description</FormLabel>
-                <Input
+                <Textarea
                   id="description"
                   name="description"
                   placeholder="Enter description"
@@ -117,7 +148,7 @@ const News = ({ activePop, setActive }) => {
                   id="author_name"
                   name="author_name"
                   type="text"
-                  placeholder="Enter author name"
+                  placeholder="Enter Author name"
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
@@ -134,7 +165,7 @@ const News = ({ activePop, setActive }) => {
                   accept="image/*"
                   onBlur={handleBlur}
                   onChange={(event) => {
-                    setFieldValue("images", event.currentTarget.files);
+                    setFieldValue("images", event.target.files);
                   }}
                 />
                 {!!errors.images && !!touched.images && <FormErrorMessage>{errors.images}</FormErrorMessage>}
@@ -150,7 +181,7 @@ const News = ({ activePop, setActive }) => {
                   onBlur={handleBlur}
                   onChange={(event) => {
 
-                    setFieldValue("videos", event.currentTarget.files[0]);
+                    setFieldValue("videos", event.target.files[0]);
                   }}
                 />
                 {!!errors.videos && !!touched.videos && <FormErrorMessage>{errors.videos}</FormErrorMessage>}
@@ -178,8 +209,9 @@ const News = ({ activePop, setActive }) => {
           <Button
             type="button"
             colorScheme="teal"
+            variant={"outline"}
             // isLoading
-            width="full"
+            // width="full"
             onClick={() => setActive(false)}
           >
             Cancel
@@ -188,10 +220,10 @@ const News = ({ activePop, setActive }) => {
             type="submit"
             colorScheme="teal"
             // isLoading
-            width="full"
+            // width="full"
             onClick={handleSubmit}
           >
-            Submit
+            Post News
           </Button>
         </DrawerFooter>
       </DrawerContent>
