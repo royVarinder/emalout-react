@@ -10,6 +10,8 @@ import { emPostData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
 import { toast } from "react-toastify";
 import { EM_COMMENTS, TYPE_BUTTON } from "../Config/emButton";
+import { EM_NODE_API_URL } from "../Config/emSiteConfig";
+import moment from "moment/moment";
 const EmNews = () => {
   const [newsList, setNewsList] = useState([]);
   const newsDescription = "ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ";
@@ -18,8 +20,8 @@ const EmNews = () => {
 
   const getAllNews = () => {
     try {
-      emPostData(em_procedur_id?.em_get_all_news_customers, {}).then((res) => {
-        if (res?.success === 1) {
+      emPostData(em_procedur_id?.em_get_channel_news, {}).then((res) => {
+        if (!!res?.success) {
           console.log('res?.data :>> ', res?.data);
           setNewsList(res?.data)
           return
@@ -43,21 +45,27 @@ const EmNews = () => {
     <div className="">
 
       {newsList.length > 0 ? newsList?.map((items, index) => {
-        const { images, title, description, createdAt, author_name } = items;
-        const _images = images?.split(",");
-        return (  
+        console.log('items :>> ', items);
+        const { images, title, description, createdAt, author_name, files = "" } = items;
+        const _images = files?.split("|");
+        const createdTime = moment(items?.createAt);
+        const date = createdTime.format("DD/MM/YYYY")
+
+        return (
           <div key={index} className="parentNews em-flex em-shadow margin-1 marginBottom-2 em-border-radius em-flex-wrap">
             <div className="newsLeft">
               <div className="newsImagesNewsList">
                 {/* <Slider {...settings}> */}
-                  {_images?.map((_items, idx) => {
-                    const fileExtention = _items.split(".")[1];
-                    return fileExtention === 'mp4' ?
-                      <video className="margin-1" controls>
-                        <source src={_items} type="video/mp4" />
-                        Your browser does not support the video tag.
-                      </video> : <img className="margin-1" src={_items} key={idx} alt={title} />
-                  })}
+                {_images?.map((_items, idx) => {
+                  const fileUrls = `${EM_NODE_API_URL}/${_items}`
+                  console.log('fileUrls :>> ', fileUrls);
+                  const fileExtention = _items.split(".")[1];
+                  return fileExtention === 'mp4' ?
+                    <video className="margin-1" controls>
+                      <source src={fileUrls} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video> : <img className="margin-1" src={fileUrls} key={idx} alt={title} />
+                })}
                 {/* </Slider> */}
               </div>
 
@@ -95,16 +103,16 @@ const EmNews = () => {
               </div>
               <div className="newsFooter">
                 <div className="newsdateTime em-flex em-horizontal-align-between">
-                  <p className="margin-0">{createdAt}</p>
+                  <p className="margin-0">{date}</p>
                   <p className="margin-0">
 
-                  <Button
-                        title={EM_COMMENTS}
-                        id=""
-                        type={TYPE_BUTTON}
-                        className="em-button-cancel em-button-small marginRight-2"
-                        onClick={() => {
-                        }}
+                    <Button
+                      title={EM_COMMENTS}
+                      id=""
+                      type={TYPE_BUTTON}
+                      className="em-button-cancel em-button-small marginRight-2"
+                      onClick={() => {
+                      }}
                     />
 
                   </p>

@@ -19,7 +19,7 @@ export const EM_COMMENTS = "Comments";
 
 // BUTTON ICONS =============
 export const EM_CLOSE_ICON  = <i className="fa fa-close"></i>;
-export const EM_MOBILE_MENU_ICON  = <i class="fa fa-bars" aria-hidden="true"></i>;
+export const EM_MOBILE_MENU_ICON  = <i className="fa fa-bars" aria-hidden="true"></i>;
 
 
 

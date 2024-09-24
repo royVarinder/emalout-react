@@ -16,7 +16,7 @@ export const em_procedur_id = {
     all_bussiness: 'emalout_all_bussiness',
     all_categories: "emalout_all_categories",
     uploadBuss: 'emalout_upload_bussiness',
-    emalout_validate_admin_user: 'api/api_adminUsers/validate_admin_user',
+    emalout_validate_admin_user: '/api/api_adminUsers/validate_admin_user',
     all_channels: "em_channels",
     get_admin_details: "emalout_admin_details",
 
@@ -25,16 +25,17 @@ export const em_procedur_id = {
     //NODE POST,GET,UPDATE
     em_node_or_post_or_get_api: "/",
     em_node_get_or_delete_by_id: "/:",
-    em_node_buss_manage_api: "api/api_bussness",
+    em_node_buss_manage_api: "/api/api_bussness",
     // em_node_buss_categories: "api/api_bussCategories",
-    em_node_buss_categories: "api/api_users/fetchCategory",
+    em_node_buss_categories: "/api/api_bussCategories/getBussCategory",
 
 
-    em_admin_add_update_news: 'api/api_adminUsers/addUpdateNews',
-    em_get_channel_news: 'api/api_adminUsers/getNewsList',
-    em_get_all_news_customers: "api/api_users/getNewsListForUsers",
-    em_get_channel_news_details: 'api/api_adminUsers/getNewsDetails',
-    em_get_channel_menu_list: 'api/api_adminUsers/getChannelMenuList',
-    em_create_business: "api/api_bussness/createUpdateBusiness",
-    add_news: "api/api_news/addNews"
+    em_admin_add_update_news: '/api/api_adminUsers/fetchAllNews',
+    em_get_channel_news: '/api/api_bussness/fetchAllNews',
+    em_get_all_news_customers: "/api/api_users/getNewsListForUsers",
+    em_get_channel_news_details: '/api/api_adminUsers/getNewsDetails',
+    em_get_channel_menu_list: '/api/api_adminUsers/getChannelMenuList',
+    em_create_business: "/api/api_bussness/createUpdateBusiness",
+    add_news: "/api/api_news/addNews",
+    fetchBusinessData: "/api/api_bussness/fetchBusiness"
 }

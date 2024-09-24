@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { EM_ADMIN_DETAILS, EM_CHANNEL_DETAILS } from "../Config/Config";
+import { EM_ADMIN_DETAILS, EM_ADMIN_MENU_LIST, EM_CHANNEL_DETAILS } from "../Config/Config";
 import { EM_ADD } from "../Config/emButton";
 import { em_procedur_id } from "../Config/procedureIds";
 import Button from "../Elements/Button";
@@ -8,44 +8,34 @@ import { emPostData, getSessionData } from "../Util";
 import { toast } from "react-toastify";
 import AdminComponents from "./AdminComponents";
 import { useNavigate } from "react-router-dom";
+import { EM_NODE_API_URL } from "../Config/emSiteConfig";
 
 const AdminPortal = () => {
 
 
   const navigate = useNavigate();
   const [newsList, setNewsList] = useState([]);
-  const [channelMenuList, setChannelMenuList] = useState([]);
-  const [selectedMenu, setSelectedMenu] = useState('');
-  let channel_id = '';
+  const [channelMenuList, setChannelMenuList] = useState(EM_ADMIN_MENU_LIST);
+  const [selectedMenu, setSelectedMenu] = useState('news_management');
+  // let channel_id = '';
   let channelName = '';
   let channelLogo = '';
   const adminAdminDetails = getSessionData(EM_ADMIN_DETAILS);
   if (!!!adminAdminDetails) {
     navigate("/")
   }
-  const adminChannelDetails = getSessionData(EM_CHANNEL_DETAILS);
-  //getting channel id 
+  const { channelDetails = {}, admin_username = "", channel_id } = adminAdminDetails;
+  console.log('adminAdminDetails :>> ', adminAdminDetails);
+  console.log('channelDetails :>> ', channelDetails);
+  const { description = "", name = "", channel_logo = "", } = channelDetails;
+  const channelLogoPath = `${EM_NODE_API_URL}${channel_logo}`;
 
-  try {
-    if (!!adminChannelDetails) {
-      const { channel_admin_id, id,  channel_name, channel_logo } = adminChannelDetails[0];
-      channel_id = id;
-      channelName = channel_name;
-      channelLogo = channel_logo;
-    }
-    if (adminAdminDetails) {
-
-    }
-  } catch (error) {
-    console.error(error);
-  }
-
-
+  console.log('channelLogoPath :>> ', channelLogoPath);
   // useEffect(() => {
   //   try {
   //     if (getSessionData(EM_ADMIN_DETAILS)) {
   //       let adminId = getSessionData(EM_ADMIN_DETAILS).admin_channel;
-  //       let serielizeData = `adminChannelId=${adminId}`;
+  //       let serielizeData = `adminChannelId = ${ adminId }`;
   //       emPostData(em_procedur_id?.get_admin_details, serielizeData).then(
   //         res => {
   //           if (res?.data !== "") {
@@ -68,7 +58,7 @@ const AdminPortal = () => {
 
   useEffect(() => {
     getNewsList();
-    getChannelMenuList();
+    // getChannelMenuList();
   }, [])
 
 
@@ -79,7 +69,7 @@ const AdminPortal = () => {
           channel_id: channel_id,
         }).then((res) => {
           const { data, success, message } = res;
-          if (success === 1) {
+          if (success) {
             setNewsList(data);
           } else {
             toast.error(message);
@@ -121,12 +111,12 @@ const AdminPortal = () => {
   return (
     <>
       <div className="channelContainer">
-        <div className="channelHeader em-flex em-horizontal-align-between padding-1 paddingLeftRight-2 em-vertical-align-middle">
+        <div className="channelHeader marginTop-2 em-flex em-horizontal-align-between padding-1 paddingLeftRight-2 em-vertical-align-middle">
           <div className="channelName">
-            <h3>{channelName}</h3>
+            <h3>{name}</h3>
           </div>
           <div className="channelLogo">
-            {channelLogo && <img src={channelLogo}></img>}
+            {channelLogoPath && <img src={channelLogoPath}></img>}
           </div>
         </div>
         <div className="channelBody">
@@ -135,7 +125,7 @@ const AdminPortal = () => {
               <ul className="menuList">
                 {channelMenuList.map((items, idx) => {
                   const isDisabled = items?.is_disabled === '1';
-                  return <li key={idx} className={`menuItem padding-2 ${isDisabled ? 'menuItemIsDisabled' : ''} ${items?.json_tag === selectedMenu ? 'menuItemActive' : ''}`}
+                  return <li key={idx} className={`menuItem padding-2 ${isDisabled ? 'menuItemIsDisabled' : ''} ${items?.json_tag === selectedMenu ? 'menuItemActive' : ''} `}
                     onClick={() => !isDisabled && handleSelectMenu(items)}>
                     <p>{items?.title}<span>{" > "}</span></p>
                   </li>

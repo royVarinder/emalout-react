@@ -195,7 +195,7 @@ label.error {
 
 .newsImagesNewsList img,
 .newsImagesNewsList video {
-  width: 28rem;
+  width: 18rem;
 }
 
 .newsImages .imageContainer {
@@ -484,11 +484,15 @@ span.newsImagesCloseIcon {
 }
 
 /* NEWS PAGE TEMPLATE CSS  */
-.newsLeft,
 .newsRight {
-  flex: 0 0 50%;
-  width: 50%;
+  flex: 0 0 60%;
+  width: 60%;
   position: relative;
+}
+
+.newsLeft {
+  flex: 0 0 40%;
+  width: 40%;
 }
 
 

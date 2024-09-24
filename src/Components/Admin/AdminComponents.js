@@ -28,7 +28,10 @@ const AdminComponents = (props) => {
                         delete items?.createdAt;
                         delete items?.status;
                         delete items?.updatedAt;
-                        delete items?.images;
+                        delete items?.facebook_link;
+                        delete items?.insta_link;
+                        delete items?.youtube_link;
+                        delete items?.uuid;
                         return items;
                     })
                     setResponseData(updatedData);

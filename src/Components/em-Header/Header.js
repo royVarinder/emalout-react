@@ -137,22 +137,18 @@ const Header = () => {
         </div>
 
       </div>
-      {showAddGig &&<AddGigForm 
-    showAddGig = {showAddGig}
-    setShowGigForm = {setShowGigForm}/>} 
-    
-    {mobileMenu && <MobileMenu 
-    mobileMenu={mobileMenu}
-    setMobileMenu={setMobileMenu}
-    />}
+      {showAddGig && <AddGigForm
+        showAddGig={showAddGig}
+        setShowGigForm={setShowGigForm} />}
 
-    {showAdminPopup && <AdminLogin 
-    showAdminPopup  ={showAdminPopup}
-    setShowAdminPopup ={setShowAdminPopup}
-    />} 
-      {/* {
-        <News activePop={showAddGig} setActive={setShowGigForm} />
-      } */}
+      {mobileMenu && <MobileMenu
+        mobileMenu={mobileMenu}
+        setMobileMenu={setMobileMenu}
+      />}
+
+      {showAdminPopup && <AdminLogin showAdminPopup={showAdminPopup} setShowAdminPopup={setShowAdminPopup}
+      />}
+
     </>
   );
 };

@@ -16,4 +16,4 @@ export const FLAG_ADMIN_BTN = "Y";
 //URL's FOR NAVIGATIONS ==========>
 
 export const NAV_ADMIN = "/admin";
-export const EM_NODE_API_URL = "http://localhost:8000/";
+export const EM_NODE_API_URL = "http://localhost:8000";

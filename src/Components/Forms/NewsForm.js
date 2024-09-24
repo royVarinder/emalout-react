@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FormControl,
   FormLabel,
@@ -17,7 +17,8 @@ import {
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
-  useDisclosure
+  useDisclosure,
+  Img
 
   // ContextProvider 
 } from "@chakra-ui/react";
@@ -28,7 +29,12 @@ import { em_procedur_id } from "../Config/procedureIds";
 import { emNodePostData } from "../Util";
 import { toast } from "react-toastify";
 
-const News = ({ activePop, setActive }) => {
+const News = ({ activePop, setActive, newsId }) => {
+  console.log('newsData :>> ', newsId);
+  const [showFiles, setShowFiles] = useState({
+    images: [],
+    videos: []
+  });
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { values, errors, handleChange, handleBlur, resetForm, setValues, touched, setFieldValue, handleSubmit } = useFormik({
     initialValues: {
@@ -72,6 +78,12 @@ const News = ({ activePop, setActive }) => {
   })
 
 
+  useEffect(() => {
+    console.log('showFiles :>> ', showFiles);
+  }, [showFiles])
+
+
+
 
   useEffect(() => {
 
@@ -91,6 +103,75 @@ const News = ({ activePop, setActive }) => {
     setActive(false)
     setValues({});
   }, [activePop])
+
+
+
+  const handleShowVideo = (e) => {
+    try {
+      const files = Array.from(e.target.files);
+      const imagePromises = files.map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(imagePromises).then(videos => {
+        setShowFiles(prevVideo => ({ ...prevVideo, videos: [...prevVideo.videos, ...videos] }));
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleShowImages = (e) => {
+    try {
+      const files = Array.from(e.target.files);
+      const imagePromises = files.map(file => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result);
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      });
+
+      Promise.all(imagePromises).then(images => {
+        setShowFiles(prevImages => ({ ...prevImages, images: [...prevImages.images, ...images] }));
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const handleRemoveFile = (file, type) => {
+    try {
+      if (type === 'video') {
+        setShowFiles(prevVideo => ({
+          ...prevVideo, videos: prevVideo.videos.filter(video => video !== file)
+        }));
+        setFieldValue('videos', {})
+        return
+      }
+      if (type === 'image') {
+        setShowFiles(prevImages => ({
+          ...prevImages, images: prevImages.images.filter(image =>
+            image !== file
+          )
+        }));
+        setFieldValue('images', [])
+
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
 
   return (
@@ -166,7 +247,9 @@ const News = ({ activePop, setActive }) => {
                   onBlur={handleBlur}
                   onChange={(event) => {
                     setFieldValue("images", event.target.files);
+                    handleShowImages(event);
                   }}
+                  values={values?.images}
                 />
                 {!!errors.images && !!touched.images && <FormErrorMessage>{errors.images}</FormErrorMessage>}
               </FormControl>
@@ -180,11 +263,35 @@ const News = ({ activePop, setActive }) => {
                   accept="video/*"
                   onBlur={handleBlur}
                   onChange={(event) => {
-
+                    handleShowVideo(event);
                     setFieldValue("videos", event.target.files[0]);
                   }}
+                  values={values?.videos}
                 />
                 {!!errors.videos && !!touched.videos && <FormErrorMessage>{errors.videos}</FormErrorMessage>}
+                <Box pos="relative">
+                  {showFiles.videos?.map((video, index) => {
+                    return (
+                      <>
+                        <video className="margin-1" controls>
+                          <source src={video} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                        <Box
+                          pos={'absolute'}
+                          right={"-5px"}
+                          top={"0"}
+                          p={"10px"}
+                          bg={"#ffffff"}
+                          cursor={'pointer'}
+                          onClick={() => { handleRemoveFile(video, 'video') }}
+                        >X</Box>
+                      </>
+
+                    )
+                  })}
+
+                </Box>
               </FormControl>
 
               <FormControl isRequired isInvalid={!!errors.tags && !!touched.tags}>
@@ -223,7 +330,7 @@ const News = ({ activePop, setActive }) => {
             // width="full"
             onClick={handleSubmit}
           >
-            Post News
+            {!!newsId ? "Update News" : "Post News"}
           </Button>
         </DrawerFooter>
       </DrawerContent>
