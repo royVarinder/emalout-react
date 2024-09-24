@@ -485,14 +485,14 @@ span.newsImagesCloseIcon {
 
 /* NEWS PAGE TEMPLATE CSS  */
 .newsRight {
-  flex: 0 0 60%;
-  width: 60%;
+  flex: 0 0 50%;
+  width: 50%;
   position: relative;
 }
 
 .newsLeft {
-  flex: 0 0 40%;
-  width: 40%;
+  flex: 0 0 50%;
+  width: 50%;
 }
 
 

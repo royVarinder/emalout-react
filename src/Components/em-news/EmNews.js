@@ -4,7 +4,7 @@ import Button from "../Elements/Button";
 import newsImage from "../../Assets/newsimage/news.jpeg";
 import mobileImage from "../../Assets/newsimage/123.jpeg";
 import Mimit from "../../Assets/newsimage/mimit.jpeg";
-import Slider from "react-slick"
+// import Slider from "react-slick"
 import { settings } from "../Config/Config";
 import { emPostData } from "../Util";
 import { em_procedur_id } from "../Config/procedureIds";
@@ -12,6 +12,9 @@ import { toast } from "react-toastify";
 import { EM_COMMENTS, TYPE_BUTTON } from "../Config/emButton";
 import { EM_NODE_API_URL } from "../Config/emSiteConfig";
 import moment from "moment/moment";
+import Slider from "react-slick";
+import "./EmNewsSlider.css";
+
 const EmNews = () => {
   const [newsList, setNewsList] = useState([]);
   const newsDescription = "ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨਇਸ ਸੰਬੰਧੀ ਸ਼੍ਰੀ ਮੁਕਤਸਰ ਸਾਹਿਬ ਦੇ ਏ.ਡੀ.ਸੀ ਮਨਦੀਪ ਕੌਰ ਨੂੰ ਮੰਗ ਪੱਤਰ ਵੀ ਸੌਂਪਿਆ ਗਿਆ। ਇਸ ਮੌਕੇ ਬਲਕਰਨ ਸਿੰਘ ਗੋਲਡੀ ਭਾਗਸਰ, ਜਗਸੀਰ ਸਿੰਘ ਸੁਖਨਾ, ਗੁਰਦੀਪ ਸਿੰਘ ਗੁਰੂਸਰ, ਚਾਨਣ ਸਿੰਘ ਚੱਕ ਗਾਧਾਂ, ਬੋਹੜ ਸਿੰਘ ਰਾਮਗੜ ਚੁੱਘਾ, ਕਾਕਾ ਸਿੰਘ ਪ੍ਰਧਾਨ ਲੰਬੀ, ਮੰਗਾ ਸਿੰਘ ਗੋਨਿਆਣਾ, ਤੇਜਿੰਦਰ ਸਿੰਘ ਸ਼ੇਰੇਆਲਾ, ਸਰਦੇਵ ਸਿੰਘ ਗੰਧੜ, ਚੂਹੜ ਸਿੰਘ ਭੁੱਟੀਆਲਾ, ਵੀਰ ਸਿੰਘ ਗੂੜੀ ਸੰਘਰ, ਬਲਜਿੰਦਰ ਕੁਰਾਈਵਾਲਾ, ਹਰਸ਼ ਸ਼ਰਮਾ ਕੁਕਰੀਆਂ, ਲਾਭ ਸਿੰਘ ਛੱਤੇਆਣਾ, ਗੁਰਲਾਲ ਸਿੰਘ ਦਾਨੇਵਾਲਾ, ਜਗਸੀਰ ਸਿੰਘ ਤਰਖਾਣ ਵਾਲ਼ਾ, ਮਨਜੀਤ ਸਿੰਘ ਜਗਤ ਸਿੰਘ, ਹਰਦੇਵ ਸਿੰਘ ਆਸਾ ਬੁੱਟਰ ਅਤੇ ਇਕਬਾਲ ਸਿੰਘ ਹਾਜ਼ਿਰ ਸਨ ";
@@ -41,6 +44,14 @@ const EmNews = () => {
     }
   }, [])
 
+    var settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
   return (
     <div className="">
 
@@ -53,20 +64,28 @@ const EmNews = () => {
 
         return (
           <div key={index} className="parentNews em-flex em-shadow margin-1 marginBottom-2 em-border-radius em-flex-wrap">
-            <div className="newsLeft">
-              <div className="newsImagesNewsList">
-                {/* <Slider {...settings}> */}
-                {_images?.map((_items, idx) => {
-                  const fileUrls = `${EM_NODE_API_URL}/${_items}`
-                  console.log('fileUrls :>> ', fileUrls);
-                  const fileExtention = _items.split(".")[1];
-                  return fileExtention === 'mp4' ?
-                    <video className="margin-1" controls>
-                      <source src={fileUrls} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video> : <img className="margin-1" src={fileUrls} key={idx} alt={title} />
-                })}
-                {/* </Slider> */}
+            <div className="newsLeft"
+             >
+              <div className="newsImagesNewsList_test" style={{ width: "90%", margin: "0 auto" }}>
+                  <Slider {...settings}>
+                    {_images.length > 0 ? (
+                      _images.map((_items, idx) => {
+                        const fileUrls = `${EM_NODE_API_URL}/${_items}`;
+                        const fileExtension = _items.split(".").pop();
+
+                        return fileExtension === "mp4" ? (
+                          <video className="margin-1_test" key={idx} controls>
+                            <source src={fileUrls} type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        ) : (
+                          <img className="margin-1_test" key={idx} src={fileUrls} alt={title} />
+                        );
+                      })
+                    ) : (
+                      <p>No media available</p>
+                    )}
+                  </Slider>
               </div>
 
               {/* <div className="channelImage">
@@ -74,7 +93,9 @@ const EmNews = () => {
               </div> */}
 
             </div>
-            <div className="newsRight em-text-left padding-2">
+            <div className="newsRight em-text-left padding-2" 
+            
+            >
               <div className="title em-flex em-horizontal-align-between">
                 <div className="newsTitle">
                   <h3>
