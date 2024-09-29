@@ -8,7 +8,7 @@ import { EM_NODE_API_URL, processIdURL } from "./Config/emSiteConfig";
 //         let PROCESS_ID_URL = EM_NODE_API_URL+processId;
 //         return axios.get(PROCESS_ID_URL);
 //     } catch (error) {
-//         console.log('getCallData :>> ', error);
+//         console.log('getCallData : ', error);
 //         return {};
 //     }
 // }
@@ -19,7 +19,7 @@ export const emPostData = (processId, data) => {
         let url = PROCESS_ID_URL + processId
         return axios.post(url, data).then(res => res?.data);
     } catch (error) {
-        console.log('emPostData :>> ', error);
+        console.log('emPostData : ', error);
         return {};
     }
 
@@ -66,7 +66,7 @@ export const emNodePostData = async (processId, postData) => {
         let PROCESS_ID_URL = EM_NODE_API_URL + processId;
         return await axios.post(PROCESS_ID_URL, postData).then(res => res?.data);
     } catch (error) {
-        console.log('emPostData :>> ', error);
+        console.log('emPostData : ', error);
         return {};
     }
 
@@ -77,7 +77,7 @@ export const getCallData = (processId) => {
         let PROCESS_ID_URL = EM_NODE_API_URL + processId;
         return axios.get(PROCESS_ID_URL);
     } catch (error) {
-        console.log('getCallData :>> ', error);
+        console.log('getCallData : ', error);
         return {};
     }
 }
@@ -87,7 +87,7 @@ export const getDataById = (processId, id) => {
         let PROCESS_ID_URL = EM_NODE_API_URL + processId;
         return axios.get(PROCESS_ID_URL + "/" + id);
     } catch (error) {
-        console.log('getCallData :>> ', error);
+        console.log('getCallData : ', error);
         return {};
     }
 }
