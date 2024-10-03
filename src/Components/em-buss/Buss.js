@@ -47,7 +47,7 @@ const BussPage = (props) => {
 				bussData?.buss_images.length !== 0 &&
 				bussData?.buss_images !== ''
 			) {
-				setBussImages(bussData?.buss_images.split(','));
+				setBussImages(bussData?.buss_images.split('|'));
 			} else {
 				setBussImages([]);
 			}
@@ -56,7 +56,7 @@ const BussPage = (props) => {
 				bussData?.features !== null &&
 				bussData?.features !== ''
 			) {
-				let featuresArray = bussData?.features.split(',');
+				let featuresArray = bussData?.features.split('|');
 				let updatedFeatureArray = featuresArray.map((items, index) => {
 					return { id: index, name: items };
 				});
@@ -69,7 +69,11 @@ const BussPage = (props) => {
 				bussData?.weekdays !== null &&
 				bussData?.weekdays !== ''
 			) {
-				setWeekDays(bussData?.weekdays.split(','));
+				let days = bussData?.weekdays.split('|');
+				let updatedFeatureArray = days.map((items, index) => {
+					return { id: index, name: items };
+				});
+				setWeekDays(updatedFeatureArray);
 			} else {
 				setWeekDays([]);
 			}
@@ -79,19 +83,74 @@ const BussPage = (props) => {
 	}, [bussData]);
 
 	return (
-		<div className="buss-page em-flex">
+		<div className="buss-page em-flex em-shadow margin-1 marginBottom-2 em-border-radius em-flex-wrap">
 			<div className="buss-images" style={{ width: '50%' }}>
-				<Slider {...settings}>
-					{bussImages !== undefined &&
-						bussImages.length !== 0 &&
-						bussImages.map((items) => {
-							return <img src={items} />;
-						})}
-				</Slider>
+				<div style={{ width: '90%', margin: '0 auto' }}>
+					<Slider {...settings}>
+						{bussImages !== undefined &&
+							bussImages.length !== 0 &&
+							bussImages.map((items) => {
+								return <img src={items} />;
+							})}
+					</Slider>
+				</div>
 			</div>
 			<div className="buss-details" style={{ width: '50%' }}>
 				<div>
 					<div className="bussHeader em-flex padding-2 em-horizontal-align-between">
+						<h3>{bussData?.buss_name}</h3>
+						<h6 style={{ paddingTop: '10px' }}>
+							{bussData?.createdAt}
+						</h6>
+						{/* <div>lorem50</div> */}
+					</div>
+					<div>
+						<div style={{ textAlign: 'left', padding: '12px' }}>
+							"Editors in good standing in the community can
+							request extra user rights, granting them the
+							technical ability to perform certain special
+							actions. In particular, editors can choose to run to
+							ordinary editors, and to implement restrictions
+							intended to prevent disruptive editors from making
+							ip.102 Wikipedia has delegated some administrative
+							functions to bots, such as when granting privileges
+							to human editors. Such algorithmic governance has an
+							ease of implementation and scaling, though the
+							automated rejection of edits may have contributed to
+							a downturn in active Wikipedia editors."
+						</div>
+						<div
+							className="buss-features"
+							style={{ textAlign: 'left', padding: '8px' }}>
+							<h4>Features :</h4>
+							<CheckRadio
+								className="emFeatures margin-1"
+								type={EM_TYPE_CHECKBOX}
+								data={features}
+								checked={true}
+								readOnly={true}
+							/>
+						</div>
+						<div
+							class="margin-2"
+							style={{ textAlign: 'left', padding: '8px' }}>
+							<h4>Opening days :</h4>
+							<div style={{ backgroundColor: ' #e9e9ee' }}>
+								{weekDays.map((day, idx) => {
+									return (
+										<span>
+											{day?.name}
+											{idx === weekDays.length - 1
+												? ''
+												: '|'}
+										</span>
+									);
+								})}
+							</div>
+						</div>
+					</div>
+					<div>footer</div>
+					{/* <div className="bussHeader em-flex padding-2 em-horizontal-align-between">
 						<div className="heading-left em-text-left">
 							<h3 className="marginBottom-2">
 								{bussData?.buss_name}
@@ -122,7 +181,7 @@ const BussPage = (props) => {
 								/>
 							</div>
 						</div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</div>
