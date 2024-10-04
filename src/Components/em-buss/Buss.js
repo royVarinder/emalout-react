@@ -1,22 +1,32 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { em_procedur_id } from '../Config/procedureIds';
 import DtService from '../TransferDataService';
 import { getCallData, getDataById } from '../Util';
 import Slider from 'react-slick';
-import { settings } from '../Config/Config';
+import { settings, EM_WEEKOFDAYS, EM_FEATURES } from '../Config/Config';
 import CheckRadio from '../Elements/Checkbox';
 import { EM_TYPE_CHECKBOX } from '../Config/Input';
 import Styles from './BussModule.module.css';
+import { format } from 'date-fns';
 
 const BussPage = (props) => {
 	const [searchparams] = useSearchParams();
 	const [bussId, setBussId] = useState('');
 	const [bussData, setBussData] = useState([]);
 	const [bussImages, setBussImages] = useState([]);
-	const [features, setFeatures] = useState([]);
-	const [weekDays, setWeekDays] = useState([]);
+	const [features, setFeatures] = useState(EM_FEATURES);
+	const [weekDays, setWeekDays] = useState(EM_WEEKOFDAYS);
+
+	const { business_created_at } = useMemo(() => {
+		let time = !!bussData?.createdAt
+			? format(new Date(bussData?.createdAt), 'hh:mm a')
+			: '';
+		return {
+			business_created_at: time,
+		};
+	}, [bussData]);
 
 	useEffect(() => {
 		try {
@@ -38,10 +48,30 @@ const BussPage = (props) => {
 		}
 	}, [searchparams]);
 
-	useEffect(() => {}, [bussData]);
-
 	useEffect(() => {
 		try {
+			if (!!bussData?.weekdays) {
+				let days = bussData?.weekdays.split('|');
+				setWeekDays((prev) =>
+					prev.map((day) => ({
+						...day,
+						isChecked: days.includes(day?.value) ? true : false,
+					}))
+				);
+			}
+
+			if (!!bussData?.features) {
+				let features = bussData?.features.split('|');
+				setFeatures((prev) =>
+					prev.map((feature_item) => ({
+						...feature_item,
+						isChecked: features.includes(feature_item?.value)
+							? true
+							: false,
+					}))
+				);
+			}
+
 			if (
 				bussData?.buss_images !== undefined &&
 				bussData?.buss_images.length !== 0 &&
@@ -50,32 +80,6 @@ const BussPage = (props) => {
 				setBussImages(bussData?.buss_images.split('|'));
 			} else {
 				setBussImages([]);
-			}
-			if (
-				bussData?.features !== undefined &&
-				bussData?.features !== null &&
-				bussData?.features !== ''
-			) {
-				let featuresArray = bussData?.features.split('|');
-				let updatedFeatureArray = featuresArray.map((items, index) => {
-					return { id: index, name: items };
-				});
-				setFeatures(updatedFeatureArray);
-			} else {
-				setFeatures([]);
-			}
-			if (
-				bussData?.weekdays !== undefined &&
-				bussData?.weekdays !== null &&
-				bussData?.weekdays !== ''
-			) {
-				let days = bussData?.weekdays.split('|');
-				let updatedFeatureArray = days.map((items, index) => {
-					return { id: index, name: items };
-				});
-				setWeekDays(updatedFeatureArray);
-			} else {
-				setWeekDays([]);
 			}
 		} catch (error) {
 			console.error(error);
@@ -94,14 +98,38 @@ const BussPage = (props) => {
 							})}
 					</Slider>
 				</div>
+				<div
+					className="bussHeader em-flex padding-2 em-horizontal-align-between"
+					style={{ margin: '0 10px 0 10px' }}>
+					<div style={{ textAlign: 'left' }}>
+						<h4>{bussData?.user_name}</h4>
+						<div>{bussData?.user_contact}</div>
+					</div>
+					<div style={{ textAlign: 'right' }}>
+						<div>
+							{bussData?.buss_address},{bussData?.buss_city}
+						</div>
+						<div>{bussData?.buss_district}.</div>
+						<div>{bussData?.user_email}</div>
+						{/* <h6>{business_created_at}</h6> */}
+					</div>
+					{/* <div>lorem50</div> */}
+				</div>
 			</div>
 			<div className="buss-details" style={{ width: '50%' }}>
 				<div>
 					<div className="bussHeader em-flex padding-2 em-horizontal-align-between">
-						<h3>{bussData?.buss_name}</h3>
-						<h6 style={{ paddingTop: '10px' }}>
-							{bussData?.createdAt}
-						</h6>
+						<div style={{ textAlign: 'left' }}>
+							<h3>{bussData?.buss_name}</h3>
+							<div>{bussData?.buss_contact}</div>
+						</div>
+						<div style={{ textAlign: 'right' }}>
+							<div>
+								{bussData?.buss_address},{bussData?.buss_city}
+							</div>
+							<div>{bussData?.buss_district}.</div>
+							<h6>{business_created_at}</h6>
+						</div>
 						{/* <div>lorem50</div> */}
 					</div>
 					<div>
@@ -127,16 +155,23 @@ const BussPage = (props) => {
 								className="emFeatures margin-1"
 								type={EM_TYPE_CHECKBOX}
 								data={features}
-								checked={true}
+								// checked={true}
 								readOnly={true}
 							/>
 						</div>
 						<div
-							class="margin-2"
+							// class="margin-2"
 							style={{ textAlign: 'left', padding: '8px' }}>
 							<h4>Opening days :</h4>
 							<div style={{ backgroundColor: ' #e9e9ee' }}>
-								{weekDays.map((day, idx) => {
+								<CheckRadio
+									className="emFeatures margin-1"
+									type={EM_TYPE_CHECKBOX}
+									data={weekDays}
+									// checked={true}
+									readOnly={true}
+								/>
+								{/* {weekDays.map((day, idx) => {
 									return (
 										<span>
 											{day?.name}
@@ -145,11 +180,21 @@ const BussPage = (props) => {
 												: '|'}
 										</span>
 									);
-								})}
+								})} */}
 							</div>
 						</div>
 					</div>
-					<div>footer</div>
+					{/* <div>footer</div> */}
+
+					{/* <div className="bussHeader em-flex padding-2 em-horizontal-align-between">
+						<div style={{ textAlign: 'center', width: '100%' }}>
+							<div>
+								{bussData?.buss_address},{bussData?.buss_city}
+							</div>
+							<div>{bussData?.buss_district}.</div>
+							<h6>{business_created_at}</h6>
+						</div>
+					</div> */}
 					{/* <div className="bussHeader em-flex padding-2 em-horizontal-align-between">
 						<div className="heading-left em-text-left">
 							<h3 className="marginBottom-2">
